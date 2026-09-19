@@ -6,6 +6,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use work.scopeToHdmi_package.all;
 
 entity scopeFace is
     PORT ( 	clk: in  STD_LOGIC;
@@ -30,7 +31,7 @@ architecture Behavioral of scopeFace is
     -- cordinate.  These act like Feature Booleans which you will use in the process(clk) to set the 
     -- correct RGB for this pixel location. Finish and add more.
     
-    signal borderH, borderV : STD_LOGIC;
+    signal borderTop, borderBottom, borderLeft, borderRight : STD_LOGIC;
     
 
 
@@ -49,7 +50,7 @@ begin
                 green <= (others => '0');
                 blue <= (others => '0');
             else
-                if ((borderH = '1') or (borderV = '1')) then
+                if ((borderTop = '1') or (borderBottom = '1') or (borderLeft = '1') or (borderRight = '1')) then
                     red <= BORDER_R;
                     green <= BORDER_G;
                     blue <= BORDER_B;
@@ -67,12 +68,20 @@ begin
     end process;
 
 
-    borderH <=	'1' when <lots of stuff> else '0';
-    borderV <=	'1' when <lots of stuff> else '0';
-
-    borderH <= '1'when else 
-
-
+    -- Generate Borders
+    
+    borderTop <=    when    ((pixelVert < T_EDGE-BORDER_LINE_WIDTH) and (pixelVert > T_EDGE + BORDER_LINE_WIDTH) and 
+                            (pixelH > L_EDGE- BORDER_LINE_WIDTH) and (pixelH < R_EDGE+BORDER_LINE_WIDTH)) else
+                            '0';
+    borderBottom <= when    ((pixelVert > B_EDGE - BORDER_LINE_WIDTH) and (pixelVert < B_EDGE + BORDER_LINE_WIDTH ) and
+                            (pixelH > L_EDGE- BORDER_LINE_WIDTH) and (pixelH < R_EDGE+BORDER_LINE_WIDTH)) else
+                            '0';
+    borderLeft <=   when    ((pixelH > L_EDGE - BORDER_LINE_WIDTH ) and (pixelH < L_EDGE + BORDER_LINE_WIDTH ) and
+                            ( pixelVert > T_EDGE) and (pixelVert < B_EDGE)) else
+                            '0';       
+    borderRight <=  when    ((pixelH > R_EDGE - BORDER_LINE_WIDTH) and (pixelH < R_EDGE + BORDER_LINE_WIDTH) and 
+                            ( pixelVert > T_EDGE) and (pixelVert < B_EDGE)) else
+                            '0';
 
 end Behavioral;
 
