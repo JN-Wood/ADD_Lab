@@ -29,8 +29,9 @@ architecture Behavioral of scopeFace is
     -- Set these signals to '1' when the features should be drawn at the current pixelHorz, pixelVert 
     -- cordinate.  These act like Feature Booleans which you will use in the process(clk) to set the 
     -- correct RGB for this pixel location. Finish and add more.
+    
     signal borderH, borderV : STD_LOGIC;
-
+    
 
 
 begin
@@ -68,7 +69,10 @@ begin
 
     borderH <=	'1' when <lots of stuff> else '0';
     borderV <=	'1' when <lots of stuff> else '0';
-  
+
+    borderH <= '1'when else 
+
+
 
 end Behavioral;
 

@@ -22,7 +22,7 @@ architecture structure of scopeToHdmi is
 
 
     signal red, green, blue: STD_LOGIC_VECTOR(7 downto 0);
-
+    
     signal triggerTime, triggerVolt: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     signal pixelHorz, pixelVert: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
 	    
@@ -34,8 +34,14 @@ begin
 
 
     vsg: videoSignalGenerator
-        PORT MAP (clk => videoClk, <other stuff>	);
-                 
+        PORT MAP (  clk => videoClk, 
+                    resetn => resetn,
+                    pixelHorz => pixelHorz,
+                    pixelVert => pixelVert,
+                    hs =>
+                    vs => 
+                    de =>
+                    	);
 
     sf: scopeFace
         PORT MAP (clk => videoClk,	<other stuff>	);
@@ -59,7 +65,9 @@ begin
     -- has change state.  Use this change vector to determine if you should 
     -- increment/decrement the triggerTime or triggerVolt values
     ------------------------------------------------------------------------------
- 
+    
+    process(btn)
+
 
     ch1Wave <= '1' when  (pixelHorz = pixelVert) else '0';
     ch2Wave <= '1' when  (pixelVert = triggerVolt) else '0';
