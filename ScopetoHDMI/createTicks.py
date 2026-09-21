@@ -36,6 +36,9 @@ while True:
     pixel+=1
     count+=1
 
+
+
+
 """
 print("LineHorz <= '1' when")
 count = 0
