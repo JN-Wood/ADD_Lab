@@ -34,7 +34,6 @@ architecture Behavioral of scopeFace is
     signal borderTop, borderBottom, borderLeft, borderRight : STD_LOGIC;
     
 
-
 begin
 
 
@@ -65,23 +64,25 @@ begin
                 end if;
             end if;
         end if;
-    end process;
+    end process;    
 
 
     -- Generate Borders
-    
-    borderTop <=    when    ((pixelVert < T_EDGE-BORDER_LINE_WIDTH) and (pixelVert > T_EDGE + BORDER_LINE_WIDTH) and 
+
+    borderTop <=   '1' when    ((pixelVert < T_EDGE-BORDER_LINE_WIDTH) and (pixelVert > T_EDGE + BORDER_LINE_WIDTH) and 
                             (pixelH > L_EDGE- BORDER_LINE_WIDTH) and (pixelH < R_EDGE+BORDER_LINE_WIDTH)) else
                             '0';
-    borderBottom <= when    ((pixelVert > B_EDGE - BORDER_LINE_WIDTH) and (pixelVert < B_EDGE + BORDER_LINE_WIDTH ) and
+    borderBottom <= 1' when    ((pixelVert > B_EDGE - BORDER_LINE_WIDTH) and (pixelVert < B_EDGE + BORDER_LINE_WIDTH ) and
                             (pixelH > L_EDGE- BORDER_LINE_WIDTH) and (pixelH < R_EDGE+BORDER_LINE_WIDTH)) else
                             '0';
-    borderLeft <=   when    ((pixelH > L_EDGE - BORDER_LINE_WIDTH ) and (pixelH < L_EDGE + BORDER_LINE_WIDTH ) and
+    borderLeft <=   '1' when    ((pixelH > L_EDGE - BORDER_LINE_WIDTH ) and (pixelH < L_EDGE + BORDER_LINE_WIDTH ) and
                             ( pixelVert > T_EDGE) and (pixelVert < B_EDGE)) else
                             '0';       
-    borderRight <=  when    ((pixelH > R_EDGE - BORDER_LINE_WIDTH) and (pixelH < R_EDGE + BORDER_LINE_WIDTH) and 
+    borderRight <=  '1' when    ((pixelH > R_EDGE - BORDER_LINE_WIDTH) and (pixelH < R_EDGE + BORDER_LINE_WIDTH) and 
                             ( pixelVert > T_EDGE) and (pixelVert < B_EDGE)) else
                             '0';
+
+
 
 end Behavioral;
 

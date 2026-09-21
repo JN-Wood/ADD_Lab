@@ -38,7 +38,7 @@ begin
                     resetn => resetn,
                     pixelHorz => pixelHorz,
                     pixelVert => pixelVert,
-                    hs =>
+                    hs => 
                     vs => 
                     de =>
                     	);
