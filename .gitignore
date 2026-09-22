@@ -1,35 +1,50 @@
-# ==========================================
-# Vivado Logs & Temporary Files
-# ==========================================
+# ==============================================================================
+# Vivado & FPGA Project .gitignore
+# ==============================================================================
+
+# --- Vivado Project Files & Generated Folders ---
+*.xpr
+.Xil/
+*.cache/
+*.hw/
+*.sim/
+*.ip_user_files/
+*.runs/
+*.gen/
+
+# --- Temporary Files, Logs, and Journals ---
 *.log
 *.jou
 *.str
+vivado*.zip
+vivado_*.str
+hd_visual/
+webtalk*.log
+webtalk*.jou
+
+# --- Simulation Artifacts ---
+xsim.dir/
 *.pb
-*.dir/
-*.dcp
+*.wdb
+*.vcd
+*.mif
+*.pak
+*.tmp
+
+# --- Generated Bitstreams & Target Hardware Exports ---
+# Note: Remove *.bit or *.xsa if you explicitly want to track release bitstreams in Git
 *.bit
 *.bin
-*.ltx
-*.fmt
+*.sysdef
+*.hdf
+*.xsa
 
-# ==========================================
-# Vivado System & Cache Directories
-# ==========================================
-.Xil/
-.cache/
-.Xilinx/
+# --- Vitis / SDK Projects ---
+.sdk/
+workspace/
 
-# ==========================================
-# Generated Project Directories
-# ==========================================
-/*.runs/
-/*.sim/
-/*.hw/
-/*.ip_user_files/
-/*.gen/
-
-# ==========================================
-# Vitis / Embedded SDK Builds (If used)
-# ==========================================
-/*.sdk/
-/*.vitis
+# --- OS & Editor Metadata ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
