@@ -11,8 +11,8 @@ restart
 # otherwise you need to manually delete all the waves every
 # time you run a simulation.
 
-add_wave  -color green /scopeToHdmi_tb/clk
-add_wave  -color green /scopeToHdmi_tb/resetn
+add_wave  -color green /scopeToHdmi_tb/clk_t
+add_wave  -color green /scopeToHdmi_tb/resetn_t
 
 add_wave   -color yellow -radix unsigned /scopeToHdmi_tb/vsg/h_cnt
 add_wave   -color yellow -radix unsigned /scopeToHdmi_tb/vsg/pixelHorz
