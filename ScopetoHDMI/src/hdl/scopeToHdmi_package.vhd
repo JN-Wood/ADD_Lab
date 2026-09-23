@@ -48,12 +48,12 @@ package scopeToHdmi_package is
     constant V_BP	  : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS -1 downto 0) := std_logic_vector(to_unsigned(20, VIDEO_WIDTH_IN_BITS));
     constant V_TOTAL  : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0) := V_ACTIVE + V_FP + V_SYNC + H_BP;
         
-    constant L_EDGE : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS -1 downto 0) := std_logic_vector(to_unsigned(100, VIDEO_WIDTH_IN_BITS));
-    constant R_EDGE : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS -1 downto 0) := std_logic_vector(to_unsigned(620, VIDEO_WIDTH_IN_BITS));
+    constant L_EDGE : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS -1 downto 0) := std_logic_vector(to_unsigned(240, VIDEO_WIDTH_IN_BITS));
+    constant R_EDGE : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS -1 downto 0) := std_logic_vector(to_unsigned(1040, VIDEO_WIDTH_IN_BITS));
     constant WIDTH  : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS -1 downto 0) := L_EDGE - R_EDGE;
 
-    constant T_EDGE : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS -1 downto 0) := std_logic_vector(to_unsigned(100, VIDEO_WIDTH_IN_BITS));
-    constant B_EDGE : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS -1 downto 0) := std_logic_vector(to_unsigned(1180, VIDEO_WIDTH_IN_BITS));
+    constant T_EDGE : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS -1 downto 0) := std_logic_vector(to_unsigned(135, VIDEO_WIDTH_IN_BITS));
+    constant B_EDGE : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS -1 downto 0) := std_logic_vector(to_unsigned(585, VIDEO_WIDTH_IN_BITS));
     constant HEIGHT : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS -1 downto 0) := B_EDGE - T_EDGE;
 	
     -- This is actually half of the width

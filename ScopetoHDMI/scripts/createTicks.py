@@ -6,10 +6,14 @@ tickSpacingH = int(screenWidth/40)
 linespacingV = int(screenHeight/10)
 linespacingH = int(screenWidth/10)
 tickWidth = 1
-
+T_EDGE = 
+B_EDGE = 
+L_EDGE =
+R_EDGE =
+BORDER_LINE_WDITH
 print("TickHorz <= '1' when ")
 count = 0
-pixel = 0
+pixel = L_EDGE + BORDER_LINE_WIDTH
 lineCount = 0
 while True:
     if pixel == screenWidth:
@@ -25,7 +29,7 @@ print("else '0';")
 
 print("TickVert <= '1' when ")
 count = 0
-pixel = 0
+pixel = L_EDGE + BORDER_LINE_WIDTH
 while True:
     if pixel == screenHeight:
         break
@@ -40,7 +44,7 @@ print("else '0';")
 #draw horizontal line, based on pixelVert
 print("LineHorz <= '1' when")
 count = 0
-pixel = 0         
+pixel = L_EDGE + BORDER_LINE_WIDTH        
 while True:
     if pixel == screenHeight:
         break
@@ -54,7 +58,7 @@ print("else '0';")
 #draw vertical grid line, based on pixelHorz
 print("LineVert <= '1' when")
 count = 0
-pixel = 0         
+pixel = L_EDGE + BORDER_LINE_WIDTH      
 while True:
     if pixel == screenWidth:
         break
