@@ -94,10 +94,17 @@ begin
                             ( pixelVert > T_EDGE) and (pixelVert < B_EDGE)) else
                             '0';
 
-    triggerVoltMarker <=    '1' when (triggerVolt = pixelVert) and(pixelHorz < TRIGGER_MARKER_HEIGHT) and (pixelVert > TRIGGER_MARKER_WIDTH + pixelHorz and pixelVert < TRIGGER_MARKER_WIDTH - pixelHorz) else
-                            '0';
-    triggerTimeMarker <=    '1' when (triggerTime = pixelH) and (pixelVert < TRIGGER_MARKER_HEIGHT) and (pixeHorz > TRIGGER_MARKER_WIDTH + pixelVert and pixelHorz < TRIGGER_MARKER_WIDTH - pixelVert) else
-                            '0';
+    triggerVoltMarker <= '1' when (pixelHorz >= L_EDGE + BORDER_LINE_WIDTH) and 
+                              (pixelHorz < L_EDGE + BORDER_LINE_WIDTH + TRIGGER_MARKER_HEIGHT) and 
+                              (pixelVert >= (triggerVolt + T_EDGE + BORDER_LINE_WIDTH) - (TRIGGER_MARKER_WIDTH - (pixelHorz - (L_EDGE + BORDER_LINE_WIDTH)))) and 
+                              (pixelVert <= (triggerVolt + T_EDGE + BORDER_LINE_WIDTH) + (TRIGGER_MARKER_WIDTH - (pixelHorz - (L_EDGE + BORDER_LINE_WIDTH)))) else
+                     '0';
+
+triggerTimeMarker <= '1' when (pixelVert >= T_EDGE + BORDER_LINE_WIDTH) and 
+                              (pixelVert < T_EDGE + BORDER_LINE_WIDTH + TRIGGER_MARKER_HEIGHT) and 
+                              (pixelHorz >= (triggerTime + L_EDGE + BORDER_LINE_WIDTH) - (TRIGGER_MARKER_WIDTH - (pixelVert - (T_EDGE + BORDER_LINE_WIDTH)))) and 
+                              (pixelHorz <= (triggerTime + L_EDGE + BORDER_LINE_WIDTH) + (TRIGGER_MARKER_WIDTH - (pixelVert - (T_EDGE + BORDER_LINE_WIDTH)))) else
+                     '0';
 
 
       
