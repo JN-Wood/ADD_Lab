@@ -81,6 +81,9 @@ package scopeToHdmi_package is
     constant TRIGGER_B 
 
 
+    constant TRIGGER_MARKER_WIDTH       -- half width of trigger marker feature
+    constand TRIGGER_MARKER_HEIGHT      -- height of trigger marker feature
+
 component videoSignalGenerator is
     PORT(	clk: in  STD_LOGIC;
          resetn : in  STD_LOGIC;
