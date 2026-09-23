@@ -31,7 +31,7 @@ architecture Behavioral of scopeFace is
     -- cordinate.  These act like Feature Booleans which you will use in the process(clk) to set the 
     -- correct RGB for this pixel location. Finish and add more.
     
-    signal borderTop, borderBottom, borderLeft, borderRight : STD_LOGIC;
+    signal borderTop, borderBottom, borderLeft, borderRight, TickHorz, TickVert, LineHorz, LineVert, triggerTimeMarker, triggerVoltMarker : STD_LOGIC;
     
 
 begin
@@ -53,10 +53,22 @@ begin
                     red <= BORDER_R;
                     green <= BORDER_G;
                     blue <= BORDER_B;
-                elsif 
-
-                    <add elsif for each Feature Boolean>
-              
+                elsif (TickHorz = '1') or (TickVert = '1') or (LineVert = '1') or (LineHorz = '1') then
+                    red <= GRID_R;
+                    green <= GRID_G;
+                    blue <= GRID_B;
+                elsif (triggerTimeMarker = '1' or triggerVoltMarker = '1') then
+                    red <= TRIGGER_R;
+                    green <= TRIGGER_G;
+                    blue <= TRIGGER_B;
+                elsif ch1Wave <= '1' then
+                    red <= CH1_R;
+                    green <= CH1_G;
+                    blue <= CH1_B;
+                elsif ch2Wave <= '1' then
+                    red <= CH2_R;
+                    green <= CH2_G;
+                    blue <= CH2_B;
                 else
                     red <= X"00";
                     green <= X"00";
@@ -81,6 +93,304 @@ begin
     borderRight <=  '1' when    ((pixelH > R_EDGE - BORDER_LINE_WIDTH) and (pixelH < R_EDGE + BORDER_LINE_WIDTH) and 
                             ( pixelVert > T_EDGE) and (pixelVert < B_EDGE)) else
                             '0';
+
+    triggerVoltMarker <=    '1' when (triggerVolt = pixelVert) and(pixelHorz < TRIGGER_MARKER_HEIGHT) and (pixelVert > TRIGGER_MARKER_WIDTH + pixelHorz and pixelVert < TRIGGER_MARKER_WIDTH - pixelHorz) else
+                            '0';
+    triggerTimeMarker <=    '1' when (triggerTime = pixelH) and (pixelVert < TRIGGER_MARKER_HEIGHT) and (pixeHorz > TRIGGER_MARKER_WIDTH + pixelVert and pixelHorz < TRIGGER_MARKER_WIDTH - pixelVert) else
+                            '0';
+
+
+      
+    TickHorz <= '1' when 
+        ((PixelHorz = 5 and pixelVert  = 49) or
+        (PixelHorz = 5 and pixelVert  = 50) or
+        (PixelHorz = 5 and pixelVert  = 51) or
+        (PixelHorz = 10 and pixelVert  = 49) or
+        (PixelHorz = 10 and pixelVert  = 50) or
+        (PixelHorz = 10 and pixelVert  = 51) or
+        (PixelHorz = 15 and pixelVert  = 49) or
+        (PixelHorz = 15 and pixelVert  = 50) or
+        (PixelHorz = 15 and pixelVert  = 51) or
+        (PixelHorz = 20 and pixelVert  = 49) or
+        (PixelHorz = 20 and pixelVert  = 50) or
+        (PixelHorz = 20 and pixelVert  = 51) or
+        (PixelHorz = 25 and pixelVert  = 49) or
+        (PixelHorz = 25 and pixelVert  = 50) or
+        (PixelHorz = 25 and pixelVert  = 51) or
+        (PixelHorz = 30 and pixelVert  = 49) or
+        (PixelHorz = 30 and pixelVert  = 50) or
+        (PixelHorz = 30 and pixelVert  = 51) or
+        (PixelHorz = 35 and pixelVert  = 49) or
+        (PixelHorz = 35 and pixelVert  = 50) or
+        (PixelHorz = 35 and pixelVert  = 51) or
+        (PixelHorz = 40 and pixelVert  = 49) or
+        (PixelHorz = 40 and pixelVert  = 50) or
+        (PixelHorz = 40 and pixelVert  = 51) or
+        (PixelHorz = 45 and pixelVert  = 49) or
+        (PixelHorz = 45 and pixelVert  = 50) or
+        (PixelHorz = 45 and pixelVert  = 51) or
+        (PixelHorz = 50 and pixelVert  = 49) or
+        (PixelHorz = 50 and pixelVert  = 50) or
+        (PixelHorz = 50 and pixelVert  = 51) or
+        (PixelHorz = 55 and pixelVert  = 49) or
+        (PixelHorz = 55 and pixelVert  = 50) or
+        (PixelHorz = 55 and pixelVert  = 51) or
+        (PixelHorz = 60 and pixelVert  = 49) or
+        (PixelHorz = 60 and pixelVert  = 50) or
+        (PixelHorz = 60 and pixelVert  = 51) or
+        (PixelHorz = 65 and pixelVert  = 49) or
+        (PixelHorz = 65 and pixelVert  = 50) or
+        (PixelHorz = 65 and pixelVert  = 51) or
+        (PixelHorz = 70 and pixelVert  = 49) or
+        (PixelHorz = 70 and pixelVert  = 50) or
+        (PixelHorz = 70 and pixelVert  = 51) or
+        (PixelHorz = 75 and pixelVert  = 49) or
+        (PixelHorz = 75 and pixelVert  = 50) or
+        (PixelHorz = 75 and pixelVert  = 51) or
+        (PixelHorz = 80 and pixelVert  = 49) or
+        (PixelHorz = 80 and pixelVert  = 50) or
+        (PixelHorz = 80 and pixelVert  = 51) or
+        (PixelHorz = 85 and pixelVert  = 49) or
+        (PixelHorz = 85 and pixelVert  = 50) or
+        (PixelHorz = 85 and pixelVert  = 51) or
+        (PixelHorz = 90 and pixelVert  = 49) or
+        (PixelHorz = 90 and pixelVert  = 50) or
+        (PixelHorz = 90 and pixelVert  = 51) or
+        (PixelHorz = 95 and pixelVert  = 49) or
+        (PixelHorz = 95 and pixelVert  = 50) or
+        (PixelHorz = 95 and pixelVert  = 51) or
+        (PixelHorz = 100 and pixelVert  = 49) or
+        (PixelHorz = 100 and pixelVert  = 50) or
+        (PixelHorz = 100 and pixelVert  = 51) or
+        (PixelHorz = 105 and pixelVert  = 49) or
+        (PixelHorz = 105 and pixelVert  = 50) or
+        (PixelHorz = 105 and pixelVert  = 51) or
+        (PixelHorz = 110 and pixelVert  = 49) or
+        (PixelHorz = 110 and pixelVert  = 50) or
+        (PixelHorz = 110 and pixelVert  = 51) or
+        (PixelHorz = 115 and pixelVert  = 49) or
+        (PixelHorz = 115 and pixelVert  = 50) or
+        (PixelHorz = 115 and pixelVert  = 51) or
+        (PixelHorz = 120 and pixelVert  = 49) or
+        (PixelHorz = 120 and pixelVert  = 50) or
+        (PixelHorz = 120 and pixelVert  = 51) or
+        (PixelHorz = 125 and pixelVert  = 49) or
+        (PixelHorz = 125 and pixelVert  = 50) or
+        (PixelHorz = 125 and pixelVert  = 51) or
+        (PixelHorz = 130 and pixelVert  = 49) or
+        (PixelHorz = 130 and pixelVert  = 50) or
+        (PixelHorz = 130 and pixelVert  = 51) or
+        (PixelHorz = 135 and pixelVert  = 49) or
+        (PixelHorz = 135 and pixelVert  = 50) or
+        (PixelHorz = 135 and pixelVert  = 51) or
+        (PixelHorz = 140 and pixelVert  = 49) or
+        (PixelHorz = 140 and pixelVert  = 50) or
+        (PixelHorz = 140 and pixelVert  = 51) or
+        (PixelHorz = 145 and pixelVert  = 49) or
+        (PixelHorz = 145 and pixelVert  = 50) or
+        (PixelHorz = 145 and pixelVert  = 51) or
+        (PixelHorz = 150 and pixelVert  = 49) or
+        (PixelHorz = 150 and pixelVert  = 50) or
+        (PixelHorz = 150 and pixelVert  = 51) or
+        (PixelHorz = 155 and pixelVert  = 49) or
+        (PixelHorz = 155 and pixelVert  = 50) or
+        (PixelHorz = 155 and pixelVert  = 51) or
+        (PixelHorz = 160 and pixelVert  = 49) or
+        (PixelHorz = 160 and pixelVert  = 50) or
+        (PixelHorz = 160 and pixelVert  = 51) or
+        (PixelHorz = 165 and pixelVert  = 49) or
+        (PixelHorz = 165 and pixelVert  = 50) or
+        (PixelHorz = 165 and pixelVert  = 51) or
+        (PixelHorz = 170 and pixelVert  = 49) or
+        (PixelHorz = 170 and pixelVert  = 50) or
+        (PixelHorz = 170 and pixelVert  = 51) or
+        (PixelHorz = 175 and pixelVert  = 49) or
+        (PixelHorz = 175 and pixelVert  = 50) or
+        (PixelHorz = 175 and pixelVert  = 51) or
+        (PixelHorz = 180 and pixelVert  = 49) or
+        (PixelHorz = 180 and pixelVert  = 50) or
+        (PixelHorz = 180 and pixelVert  = 51) or
+        (PixelHorz = 185 and pixelVert  = 49) or
+        (PixelHorz = 185 and pixelVert  = 50) or
+        (PixelHorz = 185 and pixelVert  = 51) or
+        (PixelHorz = 190 and pixelVert  = 49) or
+        (PixelHorz = 190 and pixelVert  = 50) or
+        (PixelHorz = 190 and pixelVert  = 51) or
+        (PixelHorz = 195 and pixelVert  = 49) or
+        (PixelHorz = 195 and pixelVert  = 50) or
+        (PixelHorz = 195 and pixelVert  = 51))
+    else '0';
+    TickVert <= '1' when 
+        ((pixelVert = 2 and pixelHorz  = 99) or
+        (pixelVert = 2 and pixelHorz  = 100) or
+        (pixelVert = 2 and pixelHorz  = 101) or
+        (pixelVert = 4 and pixelHorz  = 99) or
+        (pixelVert = 4 and pixelHorz  = 100) or
+        (pixelVert = 4 and pixelHorz  = 101) or
+        (pixelVert = 6 and pixelHorz  = 99) or
+        (pixelVert = 6 and pixelHorz  = 100) or
+        (pixelVert = 6 and pixelHorz  = 101) or
+        (pixelVert = 8 and pixelHorz  = 99) or
+        (pixelVert = 8 and pixelHorz  = 100) or
+        (pixelVert = 8 and pixelHorz  = 101) or
+        (pixelVert = 10 and pixelHorz  = 99) or
+        (pixelVert = 10 and pixelHorz  = 100) or
+        (pixelVert = 10 and pixelHorz  = 101) or
+        (pixelVert = 12 and pixelHorz  = 99) or
+        (pixelVert = 12 and pixelHorz  = 100) or
+        (pixelVert = 12 and pixelHorz  = 101) or
+        (pixelVert = 14 and pixelHorz  = 99) or
+        (pixelVert = 14 and pixelHorz  = 100) or
+        (pixelVert = 14 and pixelHorz  = 101) or
+        (pixelVert = 16 and pixelHorz  = 99) or
+        (pixelVert = 16 and pixelHorz  = 100) or
+        (pixelVert = 16 and pixelHorz  = 101) or
+        (pixelVert = 18 and pixelHorz  = 99) or
+        (pixelVert = 18 and pixelHorz  = 100) or
+        (pixelVert = 18 and pixelHorz  = 101) or
+        (pixelVert = 20 and pixelHorz  = 99) or
+        (pixelVert = 20 and pixelHorz  = 100) or
+        (pixelVert = 20 and pixelHorz  = 101) or
+        (pixelVert = 22 and pixelHorz  = 99) or
+        (pixelVert = 22 and pixelHorz  = 100) or
+        (pixelVert = 22 and pixelHorz  = 101) or
+        (pixelVert = 24 and pixelHorz  = 99) or
+        (pixelVert = 24 and pixelHorz  = 100) or
+        (pixelVert = 24 and pixelHorz  = 101) or
+        (pixelVert = 26 and pixelHorz  = 99) or
+        (pixelVert = 26 and pixelHorz  = 100) or
+        (pixelVert = 26 and pixelHorz  = 101) or
+        (pixelVert = 28 and pixelHorz  = 99) or
+        (pixelVert = 28 and pixelHorz  = 100) or
+        (pixelVert = 28 and pixelHorz  = 101) or
+        (pixelVert = 30 and pixelHorz  = 99) or
+        (pixelVert = 30 and pixelHorz  = 100) or
+        (pixelVert = 30 and pixelHorz  = 101) or
+        (pixelVert = 32 and pixelHorz  = 99) or
+        (pixelVert = 32 and pixelHorz  = 100) or
+        (pixelVert = 32 and pixelHorz  = 101) or
+        (pixelVert = 34 and pixelHorz  = 99) or
+        (pixelVert = 34 and pixelHorz  = 100) or
+        (pixelVert = 34 and pixelHorz  = 101) or
+        (pixelVert = 36 and pixelHorz  = 99) or
+        (pixelVert = 36 and pixelHorz  = 100) or
+        (pixelVert = 36 and pixelHorz  = 101) or
+        (pixelVert = 38 and pixelHorz  = 99) or
+        (pixelVert = 38 and pixelHorz  = 100) or
+        (pixelVert = 38 and pixelHorz  = 101) or
+        (pixelVert = 40 and pixelHorz  = 99) or
+        (pixelVert = 40 and pixelHorz  = 100) or
+        (pixelVert = 40 and pixelHorz  = 101) or
+        (pixelVert = 42 and pixelHorz  = 99) or
+        (pixelVert = 42 and pixelHorz  = 100) or
+        (pixelVert = 42 and pixelHorz  = 101) or
+        (pixelVert = 44 and pixelHorz  = 99) or
+        (pixelVert = 44 and pixelHorz  = 100) or
+        (pixelVert = 44 and pixelHorz  = 101) or
+        (pixelVert = 46 and pixelHorz  = 99) or
+        (pixelVert = 46 and pixelHorz  = 100) or
+        (pixelVert = 46 and pixelHorz  = 101) or
+        (pixelVert = 48 and pixelHorz  = 99) or
+        (pixelVert = 48 and pixelHorz  = 100) or
+        (pixelVert = 48 and pixelHorz  = 101) or
+        (pixelVert = 50 and pixelHorz  = 99) or
+        (pixelVert = 50 and pixelHorz  = 100) or
+        (pixelVert = 50 and pixelHorz  = 101) or
+        (pixelVert = 52 and pixelHorz  = 99) or
+        (pixelVert = 52 and pixelHorz  = 100) or
+        (pixelVert = 52 and pixelHorz  = 101) or
+        (pixelVert = 54 and pixelHorz  = 99) or
+        (pixelVert = 54 and pixelHorz  = 100) or
+        (pixelVert = 54 and pixelHorz  = 101) or
+        (pixelVert = 56 and pixelHorz  = 99) or
+        (pixelVert = 56 and pixelHorz  = 100) or
+        (pixelVert = 56 and pixelHorz  = 101) or
+        (pixelVert = 58 and pixelHorz  = 99) or
+        (pixelVert = 58 and pixelHorz  = 100) or
+        (pixelVert = 58 and pixelHorz  = 101) or
+        (pixelVert = 60 and pixelHorz  = 99) or
+        (pixelVert = 60 and pixelHorz  = 100) or
+        (pixelVert = 60 and pixelHorz  = 101) or
+        (pixelVert = 62 and pixelHorz  = 99) or
+        (pixelVert = 62 and pixelHorz  = 100) or
+        (pixelVert = 62 and pixelHorz  = 101) or
+        (pixelVert = 64 and pixelHorz  = 99) or
+        (pixelVert = 64 and pixelHorz  = 100) or
+        (pixelVert = 64 and pixelHorz  = 101) or
+        (pixelVert = 66 and pixelHorz  = 99) or
+        (pixelVert = 66 and pixelHorz  = 100) or
+        (pixelVert = 66 and pixelHorz  = 101) or
+        (pixelVert = 68 and pixelHorz  = 99) or
+        (pixelVert = 68 and pixelHorz  = 100) or
+        (pixelVert = 68 and pixelHorz  = 101) or
+        (pixelVert = 70 and pixelHorz  = 99) or
+        (pixelVert = 70 and pixelHorz  = 100) or
+        (pixelVert = 70 and pixelHorz  = 101) or
+        (pixelVert = 72 and pixelHorz  = 99) or
+        (pixelVert = 72 and pixelHorz  = 100) or
+        (pixelVert = 72 and pixelHorz  = 101) or
+        (pixelVert = 74 and pixelHorz  = 99) or
+        (pixelVert = 74 and pixelHorz  = 100) or
+        (pixelVert = 74 and pixelHorz  = 101) or
+        (pixelVert = 76 and pixelHorz  = 99) or
+        (pixelVert = 76 and pixelHorz  = 100) or
+        (pixelVert = 76 and pixelHorz  = 101) or
+        (pixelVert = 78 and pixelHorz  = 99) or
+        (pixelVert = 78 and pixelHorz  = 100) or
+        (pixelVert = 78 and pixelHorz  = 101) or
+        (pixelVert = 80 and pixelHorz  = 99) or
+        (pixelVert = 80 and pixelHorz  = 100) or
+        (pixelVert = 80 and pixelHorz  = 101) or
+        (pixelVert = 82 and pixelHorz  = 99) or
+        (pixelVert = 82 and pixelHorz  = 100) or
+        (pixelVert = 82 and pixelHorz  = 101) or
+        (pixelVert = 84 and pixelHorz  = 99) or
+        (pixelVert = 84 and pixelHorz  = 100) or
+        (pixelVert = 84 and pixelHorz  = 101) or
+        (pixelVert = 86 and pixelHorz  = 99) or
+        (pixelVert = 86 and pixelHorz  = 100) or
+        (pixelVert = 86 and pixelHorz  = 101) or
+        (pixelVert = 88 and pixelHorz  = 99) or
+        (pixelVert = 88 and pixelHorz  = 100) or
+        (pixelVert = 88 and pixelHorz  = 101) or
+        (pixelVert = 90 and pixelHorz  = 99) or
+        (pixelVert = 90 and pixelHorz  = 100) or
+        (pixelVert = 90 and pixelHorz  = 101) or
+        (pixelVert = 92 and pixelHorz  = 99) or
+        (pixelVert = 92 and pixelHorz  = 100) or
+        (pixelVert = 92 and pixelHorz  = 101) or
+        (pixelVert = 94 and pixelHorz  = 99) or
+        (pixelVert = 94 and pixelHorz  = 100) or
+        (pixelVert = 94 and pixelHorz  = 101) or
+        (pixelVert = 96 and pixelHorz  = 99) or
+        (pixelVert = 96 and pixelHorz  = 100) or
+        (pixelVert = 96 and pixelHorz  = 101) or
+        (pixelVert = 98 and pixelHorz  = 99) or
+        (pixelVert = 98 and pixelHorz  = 100) or
+        (pixelVert = 98 and pixelHorz  = 101))
+    else '0';
+    LineHorz <= '1' when
+        (pixelVert = '10' or
+        pixelVert = '20' or
+        pixelVert = '30' or
+        pixelVert = '40' or
+        pixelVert = '50' or
+        pixelVert = '60' or
+        pixelVert = '70' or
+        pixelVert = '80' or
+        pixelVert = '90')
+    else '0';
+    LineVert <= '1' when
+        (pixeHorz = '20' or
+        pixeHorz = '40' or
+        pixeHorz = '60' or
+        pixeHorz = '80' or
+        pixeHorz = '100' or
+        pixeHorz = '120' or
+        pixeHorz = '140' or
+        pixeHorz = '160' or
+        pixeHorz = '180')
+    else '0';
 
 
 
