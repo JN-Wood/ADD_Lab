@@ -4,6 +4,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use work.scopeToHdmi_package.all;
 
 entity videoSignalGenerator is
     PORT(	
@@ -73,12 +74,12 @@ begin
     begin
         if rising_edge(clk) then
             if resetn = '0' then
-                pixelHorz <= (others <= '0');
+                pixelHorz <= (others => '0');
             elsif (h_cnt >= H_FP + H_SYNC + H_BP-1) then
                 pixelHorz <= (h_cnt - H_FP - H_SYNC-H_BP);
             end if;
         end if;
-    end processs;
+    end process;
 
         
 
@@ -88,8 +89,8 @@ begin
         if rising_edge(clk) then
             if resetn = '0' then
                 h_activeArea <= '0';
-            else if (h_cnt >= H_FP + H_SYNC + H_BP-1) 
-                h_activeArea <=  '1'
+            elsif (h_cnt >= (H_FP + H_SYNC + H_BP-1)) then
+                h_activeArea <=  '1';
             end if;
         end if;
     end process;

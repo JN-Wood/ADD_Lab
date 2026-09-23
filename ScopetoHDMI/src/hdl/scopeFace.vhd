@@ -84,10 +84,10 @@ begin
     borderTop <=   '1' when    ((pixelVert > T_EDGE-BORDER_LINE_WIDTH) and (pixelVert < T_EDGE + BORDER_LINE_WIDTH) and 
                             (pixelHorz > L_EDGE- BORDER_LINE_WIDTH) and (pixelHorz < R_EDGE+BORDER_LINE_WIDTH)) else
                             '0';
-    borderBottom <= 1' when    ((pixelVert > B_EDGE - BORDER_LINE_WIDTH) and (pixelVert < B_EDGE + BORDER_LINE_WIDTH ) and
+    borderBottom <= '1' when    ((pixelVert > B_EDGE - BORDER_LINE_WIDTH) and (pixelVert < B_EDGE + BORDER_LINE_WIDTH ) and
                             (pixelHorz > L_EDGE- BORDER_LINE_WIDTH) and (pixelHorz < R_EDGE+BORDER_LINE_WIDTH)) else
                             '0';
-    borderLeft <=   '1' when    ((pixelHorz > L_EDGE - BORDER_LINE_WIDTH ) and (pixelHors < L_EDGE + BORDER_LINE_WIDTH ) and
+    borderLeft <=   '1' when    ((pixelHorz > L_EDGE - BORDER_LINE_WIDTH ) and (pixelHorz < L_EDGE + BORDER_LINE_WIDTH ) and
                             ( pixelVert > T_EDGE-BORDER_LINE_WIDTH) and (pixelVert < B_EDGE+BORDER_LINE_WIDTH)) else
                             '0';       
     borderRight <=  '1' when    ((pixelHorz > R_EDGE - BORDER_LINE_WIDTH) and (pixelHorz < R_EDGE + BORDER_LINE_WIDTH) and 
