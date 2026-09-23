@@ -37,9 +37,9 @@ package scopeToHdmi_package is
     constant VIDEO_WIDTH_IN_BITS: NATURAL := 11;        -- 1650 "pixels" wide, this include FP, SYNCH and BP
 
     constant H_ACTIVE : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0) := std_logic_vector(to_unsigned(1280, VIDEO_WIDTH_IN_BITS));
-    constant H_FP : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0) := 
-    constant H_SYNC 
-    constant H_BP 
+    constant H_FP : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0) := std_logic_vector(to_unsigned(110, VIDEO_WIDTH_IN_BITS));
+    constant H_SYNC : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0) := std_logic_vector(to_unsigned(40, VIDEO_WIDTH_IN_BITS));
+    constant H_BP : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0) := std_logic_vector(to_unsigned(220, VIDEO_WIDTH_IN_BITS));
     constant H_TOTAL : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0) := H_ACTIVE + H_FP + H_SYNC + H_BP;
 
     constant V_ACTIVE 
