@@ -20,15 +20,23 @@ end scopeToHdmi;
 
 architecture structure of scopeToHdmi is
 
-
-    signal red, green, blue: STD_LOGIC_VECTOR(7 downto 0);
     
-    signal triggerTime, triggerVolt: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
+    
+    signal triggerTime, triggerVolt: STD_LOGIC_VECTOR((VIDEO_WIDTH_IN_BITS - 1) downto 0);
     signal pixelHorz, pixelVert: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
 	    
     signal ch1Wave, ch2Wave: STD_LOGIC;
 
     signal videoClk, videoClk5x, clkLocked: STD_LOGIC;
+    
+    
+    -- the following connects VideoSignalGenerator to hdmi_tx_0
+    signal hsync_internal, vsync_internal, vde_internal: std_logic;
+    -- the following connects scopeFace to hdmi_tx_0
+    signal red_internal, green_internal, blue_internal: STD_LOGIC_VECTOR(7 downto 0);
+    --signals used to output hdmi
+    signal tmdsDataP_internal , tmdsDataN_internal, tmdsClkP_internal, tmdsClkN_internal : std_logic;
+    signal reset:std_logic ;
 
 begin
 
@@ -38,18 +46,46 @@ begin
                     resetn => resetn,
                     pixelHorz => pixelHorz,
                     pixelVert => pixelVert,
-                    hs => 
-                    vs => 
-                    de =>
-                    	);
+                    hs => hsync_internal,
+                    vs => vsync_internal,
+                    de => vde_internal);
 
     sf: scopeFace
-        PORT MAP (clk => videoClk,	<other stuff>	);
+        PORT MAP (clk => videoClk,
+                 resetn => resetn,
+                 pixelHorz  => pixelHorz,
+                 pixelVert  => pixelVert,
+                 triggerVolt => triggerVolt,
+                 triggerTime => triggerTime,
+                 red => red_internal,
+                 green => green_internal,
+                 blue => blue_internal,
+                 ch1 => ch1Wave,
+                 ch1Enb => '1',
+                 ch2 => ch2Wave,
+                 ch2Enb => '1');
                  
 
-    hdmi_inst: hdmi_0
+    hdmi_inst: hdmi_tx_0
         PORT MAP (
-            pix_clk => videoClk,	<other stuff>	);
+            pix_clk        => videoClk,	
+            pix_clkx5      => videoClk5x,           
+            pix_clk_locked => clkLocked,       
+            rst            =>reset,                  
+            red            => red_internal,
+            green          => green_internal,
+            blue           => blue_internal,
+            hsync          => hsync_internal,
+            vsync          => vsync_internal,
+            vde            => vde_internal,
+            aux0_din       => "0000",
+            aux1_din       => "0000",
+            aux2_din       => "0000",
+            ade            => '0',            
+            TMDS_CLK_P     => tmdsDataP_internal,
+            TMDS_CLK_N     => tmdsDataN_internal,
+            TMDS_DATA_P    => tmdsClkP_internal,
+            TMDS_DATA_N    => tmdsClkN_internal);
             
 
     vc: clk_wiz_0
@@ -67,9 +103,15 @@ begin
     ------------------------------------------------------------------------------
     
     process(btn)
-
-
+    
+    reset <= not resetn;
     ch1Wave <= '1' when  (pixelHorz = pixelVert) else '0';
     ch2Wave <= '1' when  (pixelVert = triggerVolt) else '0';
+    
+     tmdsDataP <= tmdsDataP_internal;
+     tmdsDataN <= tmdsDataN_internal;
+     tmdsClkP <= tmdsClkP_internal;
+     tmdsClkN <= tmdsClkN_internal;
+     hdmiOen <= '1';
 
 end structure;
