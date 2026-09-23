@@ -61,11 +61,11 @@ begin
                     red <= TRIGGER_R;
                     green <= TRIGGER_G;
                     blue <= TRIGGER_B;
-                elsif ch1Wave <= '1' then
+                elsif ch1 <= '1' then -- changed ch1Wave to ch1
                     red <= CH1_R;
                     green <= CH1_G;
                     blue <= CH1_B;
-                elsif ch2Wave <= '1' then
+                elsif ch2 <= '1' then -- changed ch1Wave to ch1
                     red <= CH2_R;
                     green <= CH2_G;
                     blue <= CH2_B;
@@ -402,5 +402,3 @@ triggerTimeMarker <= '1' when (pixelVert >= T_EDGE + BORDER_LINE_WIDTH) and
 
 
 end Behavioral;
-
-

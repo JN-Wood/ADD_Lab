@@ -35,8 +35,9 @@ architecture structure of scopeToHdmi is
     -- the following connects scopeFace to hdmi_tx_0
     signal red_internal, green_internal, blue_internal: STD_LOGIC_VECTOR(7 downto 0);
     --signals used to output hdmi
-    signal tmdsDataP_internal , tmdsDataN_internal, tmdsClkP_internal, tmdsClkN_internal : std_logic;
-    signal reset:std_logic ;
+    signal tmdsDataP_internal , tmdsDataN_internal:STD_LOGIC_VECTOR(2 downto 0);
+    signal tmdsClkP_internal,tmdsClkN_internal : std_logic;
+    signal reset: std_logic;
 
 begin
 
@@ -82,10 +83,10 @@ begin
             aux1_din       => "0000",
             aux2_din       => "0000",
             ade            => '0',            
-            TMDS_CLK_P     => tmdsDataP_internal,
-            TMDS_CLK_N     => tmdsDataN_internal,
-            TMDS_DATA_P    => tmdsClkP_internal,
-            TMDS_DATA_N    => tmdsClkN_internal);
+            TMDS_CLK_P     => tmdsClkP_internal,
+            TMDS_CLK_N     => tmdsClkN_internal,
+            TMDS_DATA_P    => tmdsDataP_internal,
+            TMDS_DATA_N    => tmdsDataN_internal);
             
 
     vc: clk_wiz_0
@@ -101,9 +102,14 @@ begin
     -- has change state.  Use this change vector to determine if you should 
     -- increment/decrement the triggerTime or triggerVolt values
     ------------------------------------------------------------------------------
+    -- TT for buttons:
+    -- 
+    process(btn) -- should hold the current state and previous state of the buttons
+    begin
+    -- bitwise XOR to see if buttons changed 
     
-    process(btn)
-    
+    -- resetn should reset to default value
+    end process;
     reset <= not resetn;
     ch1Wave <= '1' when  (pixelHorz = pixelVert) else '0';
     ch2Wave <= '1' when  (pixelVert = triggerVolt) else '0';

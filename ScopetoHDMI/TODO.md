@@ -5,3 +5,6 @@ TODO ITEMS
 -[ ] confirm trigger triangle works
 -[ ] confirm correct pin assignments in tcl file
 -[ ] change signal names to correspond to tcl file
+-[ ] talk about how we are making even grid lines
+- [] change inqeualites for boarders to other direction
+- [] change constants for edges 
