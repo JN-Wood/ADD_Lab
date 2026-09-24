@@ -75,9 +75,9 @@ begin
         if rising_edge(clk) then
             if resetn = '0' then
                 pixelHorz <= (others => '0');
-            elsif (h_cnt >= H_FP + H_SYNC + H_BP-1) then
+            elsif (h_cnt >= H_FP + H_SYNC + H_BP) then
                 pixelHorz <= (h_cnt - H_FP - H_SYNC-H_BP);
-            else 
+            else
                 pixelHorz <= (others => '0');
             end if;
         end if;

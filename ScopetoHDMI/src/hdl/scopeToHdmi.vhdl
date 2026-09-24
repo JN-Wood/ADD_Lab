@@ -42,7 +42,7 @@ architecture structure of scopeToHdmi is
     signal prevButton, currButton, activeButton: std_logic_vector (2 downto 0);
 
 begin
-
+    
 
     vsg: videoSignalGenerator
         PORT MAP (  clk => videoClk, 
@@ -74,7 +74,7 @@ begin
             pix_clk        => videoClk,	
             pix_clkx5      => videoClk5x,           
             pix_clk_locked => clkLocked,       
-            rst            =>reset,                  
+            rst            => reset,                  
             red            => red_internal,
             green          => green_internal,
             blue           => blue_internal,
@@ -85,10 +85,10 @@ begin
             aux1_din       => "0000",
             aux2_din       => "0000",
             ade            => '0',            
-            TMDS_CLK_P     => tmdsClkP_internal,
-            TMDS_CLK_N     => tmdsClkN_internal,
-            TMDS_DATA_P    => tmdsDataP_internal,
-            TMDS_DATA_N    => tmdsDataN_internal);
+            TMDS_CLK_P     => tmdsClkP,
+            TMDS_CLK_N     => tmdsClkN,
+            TMDS_DATA_P    => tmdsDataP,
+            TMDS_DATA_N    => tmdsDataN);
             
 
     vc: clk_wiz_0
@@ -106,43 +106,47 @@ begin
     ------------------------------------------------------------------------------
     -- TT for buttons:
     -- prevButton, currButton, activeButton
-    process(sysClk) -- should hold the current state and previous state of the buttons
-    begin
-    if resetn = '0' then
-        activeButton <= (others => '1');
-        currButton <=(others => '1');
-        activeButton <= (others => '1');
-        -- todo set center value for contage and time triggers 
-    else 
-        currButton <= btn; 
-        activeButton <= prevButton xor currButton; -- bitwise XOR to see if buttons changed 
-        prevButton <= currButton; 
-        
-    end if;
-    -- resetn should reset to default value
-    end process;
-        
-    process(sysClk)
-    begin
-    if (activeButton = "010") then 
-            triggerVolt <= triggerVolt-10; -- each result is input buttons xored with 111
-        elsif (activeButton = "110") then 
-            triggerVolt <= triggerVolt+10;
-        elsif (activeButton = "110") then 
-            triggerTime <= triggerTime-10;
-        elsif (activeButton = "010") then 
-            triggerTime <= triggerTime+10;
-        end if;
-    end process;
+    --process(sysClk) -- should hold the current state and previous state of the buttons
+    --begin
+    --if resetn = '0' then
+    --    activeButton <= (others => '1');
+    --    currButton <=(others => '1');
+    --    activeButton <= (others => '1');
+    --    -- todo set center value for contage and time triggers 
+    --else 
+    --    currButton <= btn; 
+    --    activeButton <= prevButton xor currButton; -- bitwise XOR to see if buttons changed 
+    --    prevButton <= currButton; 
+    --    
+    --end if;
+    ---- resetn should reset to default value
+    --end process;
+    --    
+    --process(sysClk)
+    --begin
+    --if (activeButton = "010") then 
+    --        triggerVolt <= triggerVolt-10; -- each result is input buttons xored with 111
+    --    elsif (activeButton = "110") then 
+    --        triggerVolt <= triggerVolt+10;
+    --    elsif (activeButton = "110") then 
+    --        triggerTime <= triggerTime-10;
+    --    elsif (activeButton = "010") then 
+    --        triggerTime <= triggerTime+10;
+    --    end if;
+    --end process;
     
     reset <= not resetn;
     ch1Wave <= '1' when  (pixelHorz = pixelVert) else '0';
     ch2Wave <= '1' when  (pixelVert = triggerVolt) else '0';
     
-     tmdsDataP <= tmdsDataP_internal;
-     tmdsDataN <= tmdsDataN_internal;
-     tmdsClkP <= tmdsClkP_internal;
-     tmdsClkN <= tmdsClkN_internal;
-     hdmiOen <= '1';
+    tmdsDataP <= tmdsDataP_internal;
+    tmdsDataN <= tmdsDataN_internal;
+    tmdsClkP <= tmdsClkP_internal;
+    tmdsClkN <= tmdsClkN_internal;
+    hdmiOen <= '1';
 
+    triggerVolt <= STD_LOGIC_VECTOR(TO_UNSIGNED(200, VIDEO_WIDTH_IN_BITS));
+    triggerTime <= STD_LOGIC_VECTOR(TO_UNSIGNED(200, VIDEO_WIDTH_IN_BITS));
+
+    
 end structure;

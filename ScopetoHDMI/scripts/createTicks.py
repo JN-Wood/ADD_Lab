@@ -4,8 +4,8 @@ R_EDGE = 1040
 B_EDGE = 585
 BORDER_LINE_WIDTH = 10
 
-screenWidth = R_EDGE - L_EDGE -2*BORDER_LINE_WIDTH 
-screenHeight = B_EDGE - T_EDGE - 2* BORDER_LINE_WIDTH
+screenWidth = R_EDGE - L_EDGE 
+screenHeight = B_EDGE - T_EDGE 
 
 
 tickSpacingV = int(screenHeight/40)

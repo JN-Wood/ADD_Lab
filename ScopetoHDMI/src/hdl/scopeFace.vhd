@@ -61,11 +61,11 @@ begin
                     red <= TRIGGER_R;
                     green <= TRIGGER_G;
                     blue <= TRIGGER_B;
-                elsif ch1 <= '1' then -- changed ch1Wave to ch1
+                elsif ch1 = '1' then -- changed ch1Wave to ch1
                     red <= CH1_R;
                     green <= CH1_G;
                     blue <= CH1_B;
-                elsif ch2 <= '1' then -- changed ch1Wave to ch1
+                elsif ch2 = '1' then -- changed ch1Wave to ch1
                     red <= CH2_R;
                     green <= CH2_G;
                     blue <= CH2_B;
@@ -95,7 +95,7 @@ begin
                             '0';
 
     triggerVoltMarker <= '1' when (pixelHorz >= L_EDGE + BORDER_LINE_WIDTH) and 
-                              (pixelHorz < L_EDGE + BORDER_LINE_WIDTH + TRIGGER_MARKER_HEIGHT) and 
+                              (pixelHorz <= L_EDGE + BORDER_LINE_WIDTH + TRIGGER_MARKER_HEIGHT) and 
                               (pixelVert >= (triggerVolt + T_EDGE + BORDER_LINE_WIDTH) - (TRIGGER_MARKER_WIDTH - (pixelHorz - (L_EDGE + BORDER_LINE_WIDTH)))) and 
                               (pixelVert <= (triggerVolt + T_EDGE + BORDER_LINE_WIDTH) + (TRIGGER_MARKER_WIDTH - (pixelHorz - (L_EDGE + BORDER_LINE_WIDTH)))) else
                         '0';
