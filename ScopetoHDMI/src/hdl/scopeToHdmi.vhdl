@@ -38,6 +38,8 @@ architecture structure of scopeToHdmi is
     signal tmdsDataP_internal , tmdsDataN_internal:STD_LOGIC_VECTOR(2 downto 0);
     signal tmdsClkP_internal,tmdsClkN_internal : std_logic;
     signal reset: std_logic;
+    
+    signal prevButton, currButton, activeButton: std_logic_vector (2 downto 0);
 
 begin
 
@@ -103,13 +105,36 @@ begin
     -- increment/decrement the triggerTime or triggerVolt values
     ------------------------------------------------------------------------------
     -- TT for buttons:
-    -- 
-    process(btn) -- should hold the current state and previous state of the buttons
+    -- prevButton, currButton, activeButton
+    process(sysClk) -- should hold the current state and previous state of the buttons
     begin
-    -- bitwise XOR to see if buttons changed 
-    
+    if resetn = '0' then
+        activeButton <= (others => '1');
+        currButton <=(others => '1');
+        activeButton <= (others => '1');
+        -- todo set center value for contage and time triggers 
+    else 
+        currButton <= btn; 
+        activeButton <= prevButton xor currButton; -- bitwise XOR to see if buttons changed 
+        prevButton <= currButton; 
+        
+    end if;
     -- resetn should reset to default value
     end process;
+        
+    process(sysClk)
+    begin
+    if (activeButton = "010") then 
+            triggerVolt <= triggerVolt-10; -- each result is input buttons xored with 111
+        elsif (activeButton = "110") then 
+            triggerVolt <= triggerVolt+10;
+        elsif (activeButton = "110") then 
+            triggerTime <= triggerTime-10;
+        elsif (activeButton = "010") then 
+            triggerTime <= triggerTime+10;
+        end if;
+    end process;
+    
     reset <= not resetn;
     ch1Wave <= '1' when  (pixelHorz = pixelVert) else '0';
     ch2Wave <= '1' when  (pixelVert = triggerVolt) else '0';
