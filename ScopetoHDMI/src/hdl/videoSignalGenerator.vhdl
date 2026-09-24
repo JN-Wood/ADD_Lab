@@ -59,10 +59,10 @@ begin
         if rising_edge(clk) then
             if resetn = '0' then
                 hs <= '1';
-            elsif (h_cnt = H_FP-1) then -- synch goes low when hcnt = FP count
+            elsif ((h_cnt >= H_FP-1) and (h_cnt <= H_FP + H_SYNC-1)) then -- synch goes low when hcnt = FP count
                 hs <= '0';
-            elsif(h_cnt = H_BP -1) then
-                hs <='1';
+            else
+                hs <= '1';
             end if;
         end if;
     end process;
@@ -77,6 +77,8 @@ begin
                 pixelHorz <= (others => '0');
             elsif (h_cnt >= H_FP + H_SYNC + H_BP-1) then
                 pixelHorz <= (h_cnt - H_FP - H_SYNC-H_BP);
+            else 
+                pixelHorz <= (others => '0');
             end if;
         end if;
     end process;
@@ -91,6 +93,8 @@ begin
                 h_activeArea <= '0';
             elsif (h_cnt >= (H_FP + H_SYNC + H_BP-1)) then
                 h_activeArea <=  '1';
+            else
+                h_activeArea <=  '0';
             end if;
         end if;
     end process;
@@ -121,7 +125,8 @@ begin
             elsif((v_cnt = V_FP - 1) and (h_cnt = H_FP - 1)) then
                 vs <= '0';
             elsif((v_cnt = V_FP + V_SYNC - 1) and (h_cnt = H_FP - 1)) then
-                vs <= '1';            
+                vs <= '1';     
+               
             end if;
         end if;
     end process;
@@ -137,6 +142,8 @@ begin
                 pixelVert <= (others => '0');
             elsif(v_cnt >= V_FP + V_SYNC + V_BP - 1) then
                 pixelVert <= v_cnt - (V_FP + V_SYNC + V_BP - 1);
+            else
+                pixelVert <= (others => '0');
             end if;
         end if;
     end process;
