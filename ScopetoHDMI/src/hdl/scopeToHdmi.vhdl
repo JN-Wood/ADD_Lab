@@ -131,10 +131,8 @@ begin
 
             currButton  <= (others => '1');
             prevButton  <= (others => '1');
-
-            triggerVolt <= STD_LOGIC_VECTOR(
-                TO_UNSIGNED(200, VIDEO_WIDTH_IN_BITS)
-            );
+            triggerTime <= STD_LOGIC_VECTOR(TO_UNSIGNED(640, VIDEO_WIDTH_IN_BITS));
+            triggerVolt <= STD_LOGIC_VECTOR(TO_UNSIGNED(225, VIDEO_WIDTH_IN_BITS));
 
         else
 
@@ -147,13 +145,26 @@ begin
 
                 -- Button 0 is being held
                 if currButton(0) = '0' then
-                    triggerVolt <= triggerVolt - 10;
+                    triggerVolt <= triggerVolt + 10;
 
                 -- Button 0 is not being held
                 else
-                    triggerVolt <= triggerVolt + 10;
+                    triggerVolt <= triggerVolt - 10;
+                    
                 end if;
+             end if;   
+            
+            if (prevButton(2) = '0') and (currButton(2) = '1') then
 
+                -- Button 0 is being held
+                if currButton(0) = '0' then
+                    triggerTime <= triggerTime + 10;
+
+                -- Button 0 is not being held
+                else
+                    triggerTime <= triggerTime - 10;
+                    
+                end if;
             end if;
 
         end if;
@@ -163,7 +174,7 @@ end process;
 
     reset <= not resetn;
     ch1Wave <= '1' when  (pixelHorz = pixelVert and (pixelHorz >L_EDGE and pixelVert >T_EDGE) and (pixelHorz < R_EDGE and pixelVert < B_EDGE)) else '0';
-    ch2Wave <= '1' when  (pixelVert = triggerVolt and (pixelHorz >L_EDGE and pixelVert >T_EDGE) and (pixelHorz < R_EDGE and pixelVert < B_EDGE)) else '0';
+    ch2Wave <= '1' when  (pixelVert = (triggerVolt+T_EDGE+BORDER_LINE_WIDTH) and (pixelHorz >L_EDGE and pixelVert >T_EDGE) and (pixelHorz < R_EDGE and pixelVert < B_EDGE)) else '0';
     
     tmdsDataP <= tmdsDataP_internal;
     tmdsDataN <= tmdsDataN_internal;
