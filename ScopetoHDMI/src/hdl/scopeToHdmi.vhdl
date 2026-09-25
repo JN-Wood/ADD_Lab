@@ -124,7 +124,7 @@ begin
 --    end process;
         
   process(sysClk)
-begin
+    begin
     if rising_edge(sysClk) then
 
         if resetn = '0' then
