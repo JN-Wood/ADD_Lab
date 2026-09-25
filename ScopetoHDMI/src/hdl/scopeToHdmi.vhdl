@@ -106,38 +106,64 @@ begin
     ------------------------------------------------------------------------------
     -- TT for buttons:
     -- prevButton, currButton, activeButton
-    --process(sysClk) -- should hold the current state and previous state of the buttons
-    --begin
-    --if resetn = '0' then
-    --    activeButton <= (others => '1');
-    --    currButton <=(others => '1');
-    --    activeButton <= (others => '1');
-    --    -- todo set center value for contage and time triggers 
-    --else 
-    --    currButton <= btn; 
-    --    activeButton <= prevButton xor currButton; -- bitwise XOR to see if buttons changed 
-    --    prevButton <= currButton; 
-    --    
-    --end if;
-    ---- resetn should reset to default value
-    --end process;
-    --    
-    --process(sysClk)
-    --begin
-    --if (activeButton = "010") then 
-    --        triggerVolt <= triggerVolt-10; -- each result is input buttons xored with 111
-    --    elsif (activeButton = "110") then 
-    --        triggerVolt <= triggerVolt+10;
-    --    elsif (activeButton = "110") then 
-    --        triggerTime <= triggerTime-10;
-    --    elsif (activeButton = "010") then 
-    --        triggerTime <= triggerTime+10;
-    --    end if;
-    --end process;
-    
+--   process(sysClk) -- should hold the current state and previous state of the buttons
+--   begin
+--   if rising_edge (sysClk) then
+--        if resetn = '0' then
+--           activeButton <= (others => '1');
+--            currButton <=(others => '1');
+--            activeButton <= (others => '1');
+--            -- todo set center value for contage and time triggers 
+--        else 
+--            currButton <= btn; 
+--            prevButton <= currButton; 
+            
+--        end if;
+--    end if;    
+--    -- resetn should reset to default value
+--    end process;
+        
+  process(sysClk)
+begin
+    if rising_edge(sysClk) then
+
+        if resetn = '0' then
+
+            currButton  <= (others => '1');
+            prevButton  <= (others => '1');
+
+            triggerVolt <= STD_LOGIC_VECTOR(
+                TO_UNSIGNED(200, VIDEO_WIDTH_IN_BITS)
+            );
+
+        else
+
+            -- Save button states
+            prevButton <= currButton;
+            currButton <= btn;
+
+            -- Button 1 was released
+            if (prevButton(1) = '0') and (currButton(1) = '1') then
+
+                -- Button 0 is being held
+                if currButton(0) = '0' then
+                    triggerVolt <= triggerVolt - 10;
+
+                -- Button 0 is not being held
+                else
+                    triggerVolt <= triggerVolt + 10;
+                end if;
+
+            end if;
+
+        end if;
+    end if;
+end process;
+   activeButton <= prevButton xor currButton; -- bitwise XOR to see if buttons changed 
+
     reset <= not resetn;
     ch1Wave <= '1' when  (pixelHorz = pixelVert and (pixelHorz >L_EDGE and pixelVert >T_EDGE) and (pixelHorz < R_EDGE and pixelVert < B_EDGE)) else '0';
-    ch2Wave <= '1' when  (pixelVert = triggerVolt(pixelHorz >L_EDGE and pixelVert >T_EDGE) and (pixelHorz < R_EDGE and pixelVert < B_EDGE)) else '0';
+    ch2Wave <= '1' when  (pixelVert = triggerVolt and (pixelHorz >L_EDGE and pixelVert >T_EDGE) and (pixelHorz < R_EDGE and pixelVert < B_EDGE)) else '0';
     
     tmdsDataP <= tmdsDataP_internal;
     tmdsDataN <= tmdsDataN_internal;
@@ -145,8 +171,8 @@ begin
     tmdsClkN <= tmdsClkN_internal;
     hdmiOen <= '1';
 
-    triggerVolt <= STD_LOGIC_VECTOR(TO_UNSIGNED(200, VIDEO_WIDTH_IN_BITS));
-    triggerTime <= STD_LOGIC_VECTOR(TO_UNSIGNED(200, VIDEO_WIDTH_IN_BITS));
+    --triggerVolt <= STD_LOGIC_VECTOR(TO_UNSIGNED(200, VIDEO_WIDTH_IN_BITS));
+    --triggerTime <= STD_LOGIC_VECTOR(TO_UNSIGNED(200, VIDEO_WIDTH_IN_BITS));
 
     
 end structure;
