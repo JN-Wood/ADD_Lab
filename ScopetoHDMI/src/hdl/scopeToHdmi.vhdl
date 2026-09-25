@@ -136,8 +136,8 @@ begin
     --end process;
     
     reset <= not resetn;
-    ch1Wave <= '1' when  (pixelHorz = pixelVert) else '0';
-    ch2Wave <= '1' when  (pixelVert = triggerVolt) else '0';
+    ch1Wave <= '1' when  (pixelHorz = pixelVert and (pixelHorz >L_EDGE and pixelVert >T_EDGE) and (pixelHorz < R_EDGE and pixelVert < B_EDGE)) else '0';
+    ch2Wave <= '1' when  (pixelVert = triggerVolt(pixelHorz >L_EDGE and pixelVert >T_EDGE) and (pixelHorz < R_EDGE and pixelVert < B_EDGE)) else '0';
     
     tmdsDataP <= tmdsDataP_internal;
     tmdsDataN <= tmdsDataN_internal;

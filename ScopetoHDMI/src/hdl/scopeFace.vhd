@@ -108,276 +108,265 @@ begin
 
 
       
-    TickHorz <= '1' when 
-        ((PixelHorz = 269 and pixelVert  = 214) or
-        (PixelHorz = 269 and pixelVert  = 215) or
-        (PixelHorz = 269 and pixelVert  = 216) or
-        (PixelHorz = 288 and pixelVert  = 214) or
-        (PixelHorz = 288 and pixelVert  = 215) or
-        (PixelHorz = 288 and pixelVert  = 216) or
-        (PixelHorz = 307 and pixelVert  = 214) or
-        (PixelHorz = 307 and pixelVert  = 215) or
-        (PixelHorz = 307 and pixelVert  = 216) or
-        (PixelHorz = 326 and pixelVert  = 214) or
-        (PixelHorz = 326 and pixelVert  = 215) or
-        (PixelHorz = 326 and pixelVert  = 216) or
-        (PixelHorz = 345 and pixelVert  = 214) or
-        (PixelHorz = 345 and pixelVert  = 215) or
-        (PixelHorz = 345 and pixelVert  = 216) or
-        (PixelHorz = 364 and pixelVert  = 214) or
-        (PixelHorz = 364 and pixelVert  = 215) or
-        (PixelHorz = 364 and pixelVert  = 216) or
-        (PixelHorz = 383 and pixelVert  = 214) or
-        (PixelHorz = 383 and pixelVert  = 215) or
-        (PixelHorz = 383 and pixelVert  = 216) or
-        (PixelHorz = 402 and pixelVert  = 214) or
-        (PixelHorz = 402 and pixelVert  = 215) or
-        (PixelHorz = 402 and pixelVert  = 216) or
-        (PixelHorz = 421 and pixelVert  = 214) or
-        (PixelHorz = 421 and pixelVert  = 215) or
-        (PixelHorz = 421 and pixelVert  = 216) or
-        (PixelHorz = 440 and pixelVert  = 214) or
-        (PixelHorz = 440 and pixelVert  = 215) or
-        (PixelHorz = 440 and pixelVert  = 216) or
-        (PixelHorz = 459 and pixelVert  = 214) or
-        (PixelHorz = 459 and pixelVert  = 215) or
-        (PixelHorz = 459 and pixelVert  = 216) or
-        (PixelHorz = 478 and pixelVert  = 214) or
-        (PixelHorz = 478 and pixelVert  = 215) or
-        (PixelHorz = 478 and pixelVert  = 216) or
-        (PixelHorz = 497 and pixelVert  = 214) or
-        (PixelHorz = 497 and pixelVert  = 215) or
-        (PixelHorz = 497 and pixelVert  = 216) or
-        (PixelHorz = 516 and pixelVert  = 214) or
-        (PixelHorz = 516 and pixelVert  = 215) or
-        (PixelHorz = 516 and pixelVert  = 216) or
-        (PixelHorz = 535 and pixelVert  = 214) or
-        (PixelHorz = 535 and pixelVert  = 215) or
-        (PixelHorz = 535 and pixelVert  = 216) or
-        (PixelHorz = 554 and pixelVert  = 214) or
-        (PixelHorz = 554 and pixelVert  = 215) or
-        (PixelHorz = 554 and pixelVert  = 216) or
-        (PixelHorz = 573 and pixelVert  = 214) or
-        (PixelHorz = 573 and pixelVert  = 215) or
-        (PixelHorz = 573 and pixelVert  = 216) or
-        (PixelHorz = 592 and pixelVert  = 214) or
-        (PixelHorz = 592 and pixelVert  = 215) or
-        (PixelHorz = 592 and pixelVert  = 216) or
-        (PixelHorz = 611 and pixelVert  = 214) or
-        (PixelHorz = 611 and pixelVert  = 215) or
-        (PixelHorz = 611 and pixelVert  = 216) or
-        (PixelHorz = 630 and pixelVert  = 214) or
-        (PixelHorz = 630 and pixelVert  = 215) or
-        (PixelHorz = 630 and pixelVert  = 216) or
-        (PixelHorz = 649 and pixelVert  = 214) or
-        (PixelHorz = 649 and pixelVert  = 215) or
-        (PixelHorz = 649 and pixelVert  = 216) or
-        (PixelHorz = 668 and pixelVert  = 214) or
-        (PixelHorz = 668 and pixelVert  = 215) or
-        (PixelHorz = 668 and pixelVert  = 216) or
-        (PixelHorz = 687 and pixelVert  = 214) or
-        (PixelHorz = 687 and pixelVert  = 215) or
-        (PixelHorz = 687 and pixelVert  = 216) or
-        (PixelHorz = 706 and pixelVert  = 214) or
-        (PixelHorz = 706 and pixelVert  = 215) or
-        (PixelHorz = 706 and pixelVert  = 216) or
-        (PixelHorz = 725 and pixelVert  = 214) or
-        (PixelHorz = 725 and pixelVert  = 215) or
-        (PixelHorz = 725 and pixelVert  = 216) or
-        (PixelHorz = 744 and pixelVert  = 214) or
-        (PixelHorz = 744 and pixelVert  = 215) or
-        (PixelHorz = 744 and pixelVert  = 216) or
-        (PixelHorz = 763 and pixelVert  = 214) or
-        (PixelHorz = 763 and pixelVert  = 215) or
-        (PixelHorz = 763 and pixelVert  = 216) or
-        (PixelHorz = 782 and pixelVert  = 214) or
-        (PixelHorz = 782 and pixelVert  = 215) or
-        (PixelHorz = 782 and pixelVert  = 216) or
-        (PixelHorz = 801 and pixelVert  = 214) or
-        (PixelHorz = 801 and pixelVert  = 215) or
-        (PixelHorz = 801 and pixelVert  = 216) or
-        (PixelHorz = 820 and pixelVert  = 214) or
-        (PixelHorz = 820 and pixelVert  = 215) or
-        (PixelHorz = 820 and pixelVert  = 216) or
-        (PixelHorz = 839 and pixelVert  = 214) or
-        (PixelHorz = 839 and pixelVert  = 215) or
-        (PixelHorz = 839 and pixelVert  = 216) or
-        (PixelHorz = 858 and pixelVert  = 214) or
-        (PixelHorz = 858 and pixelVert  = 215) or
-        (PixelHorz = 858 and pixelVert  = 216) or
-        (PixelHorz = 877 and pixelVert  = 214) or
-        (PixelHorz = 877 and pixelVert  = 215) or
-        (PixelHorz = 877 and pixelVert  = 216) or
-        (PixelHorz = 896 and pixelVert  = 214) or
-        (PixelHorz = 896 and pixelVert  = 215) or
-        (PixelHorz = 896 and pixelVert  = 216) or
-        (PixelHorz = 915 and pixelVert  = 214) or
-        (PixelHorz = 915 and pixelVert  = 215) or
-        (PixelHorz = 915 and pixelVert  = 216) or
-        (PixelHorz = 934 and pixelVert  = 214) or
-        (PixelHorz = 934 and pixelVert  = 215) or
-        (PixelHorz = 934 and pixelVert  = 216) or
-        (PixelHorz = 953 and pixelVert  = 214) or
-        (PixelHorz = 953 and pixelVert  = 215) or
-        (PixelHorz = 953 and pixelVert  = 216) or
-        (PixelHorz = 972 and pixelVert  = 214) or
-        (PixelHorz = 972 and pixelVert  = 215) or
-        (PixelHorz = 972 and pixelVert  = 216) or
-        (PixelHorz = 991 and pixelVert  = 214) or
-        (PixelHorz = 991 and pixelVert  = 215) or
-        (PixelHorz = 991 and pixelVert  = 216) or
-        (PixelHorz = 1010 and pixelVert  = 214) or
-        (PixelHorz = 1010 and pixelVert  = 215) or
-        (PixelHorz = 1010 and pixelVert  = 216))
-    else '0';
-    TickVert <= '1' when 
-        ((pixelVert = 155 and pixelHorz  = 389) or
-        (pixelVert = 155 and pixelHorz  = 390) or
-        (pixelVert = 155 and pixelHorz  = 391) or
-        (pixelVert = 165 and pixelHorz  = 389) or
-        (pixelVert = 165 and pixelHorz  = 390) or
-        (pixelVert = 165 and pixelHorz  = 391) or
-        (pixelVert = 175 and pixelHorz  = 389) or
-        (pixelVert = 175 and pixelHorz  = 390) or
-        (pixelVert = 175 and pixelHorz  = 391) or
-        (pixelVert = 185 and pixelHorz  = 389) or
-        (pixelVert = 185 and pixelHorz  = 390) or
-        (pixelVert = 185 and pixelHorz  = 391) or
-        (pixelVert = 195 and pixelHorz  = 389) or
-        (pixelVert = 195 and pixelHorz  = 390) or
-        (pixelVert = 195 and pixelHorz  = 391) or
-        (pixelVert = 205 and pixelHorz  = 389) or
-        (pixelVert = 205 and pixelHorz  = 390) or
-        (pixelVert = 205 and pixelHorz  = 391) or
-        (pixelVert = 215 and pixelHorz  = 389) or
-        (pixelVert = 215 and pixelHorz  = 390) or
-        (pixelVert = 215 and pixelHorz  = 391) or
-        (pixelVert = 225 and pixelHorz  = 389) or
-        (pixelVert = 225 and pixelHorz  = 390) or
-        (pixelVert = 225 and pixelHorz  = 391) or
-        (pixelVert = 235 and pixelHorz  = 389) or
-        (pixelVert = 235 and pixelHorz  = 390) or
-        (pixelVert = 235 and pixelHorz  = 391) or
-        (pixelVert = 245 and pixelHorz  = 389) or
-        (pixelVert = 245 and pixelHorz  = 390) or
-        (pixelVert = 245 and pixelHorz  = 391) or
-        (pixelVert = 255 and pixelHorz  = 389) or
-        (pixelVert = 255 and pixelHorz  = 390) or
-        (pixelVert = 255 and pixelHorz  = 391) or
-        (pixelVert = 265 and pixelHorz  = 389) or
-        (pixelVert = 265 and pixelHorz  = 390) or
-        (pixelVert = 265 and pixelHorz  = 391) or
-        (pixelVert = 275 and pixelHorz  = 389) or
-        (pixelVert = 275 and pixelHorz  = 390) or
-        (pixelVert = 275 and pixelHorz  = 391) or
-        (pixelVert = 285 and pixelHorz  = 389) or
-        (pixelVert = 285 and pixelHorz  = 390) or
-        (pixelVert = 285 and pixelHorz  = 391) or
-        (pixelVert = 295 and pixelHorz  = 389) or
-        (pixelVert = 295 and pixelHorz  = 390) or
-        (pixelVert = 295 and pixelHorz  = 391) or
-        (pixelVert = 305 and pixelHorz  = 389) or
-        (pixelVert = 305 and pixelHorz  = 390) or
-        (pixelVert = 305 and pixelHorz  = 391) or
-        (pixelVert = 315 and pixelHorz  = 389) or
-        (pixelVert = 315 and pixelHorz  = 390) or
-        (pixelVert = 315 and pixelHorz  = 391) or
-        (pixelVert = 325 and pixelHorz  = 389) or
-        (pixelVert = 325 and pixelHorz  = 390) or
-        (pixelVert = 325 and pixelHorz  = 391) or
-        (pixelVert = 335 and pixelHorz  = 389) or
-        (pixelVert = 335 and pixelHorz  = 390) or
-        (pixelVert = 335 and pixelHorz  = 391) or
-        (pixelVert = 345 and pixelHorz  = 389) or
-        (pixelVert = 345 and pixelHorz  = 390) or
-        (pixelVert = 345 and pixelHorz  = 391) or
-        (pixelVert = 355 and pixelHorz  = 389) or
-        (pixelVert = 355 and pixelHorz  = 390) or
-        (pixelVert = 355 and pixelHorz  = 391) or
-        (pixelVert = 365 and pixelHorz  = 389) or
-        (pixelVert = 365 and pixelHorz  = 390) or
-        (pixelVert = 365 and pixelHorz  = 391) or
-        (pixelVert = 375 and pixelHorz  = 389) or
-        (pixelVert = 375 and pixelHorz  = 390) or
-        (pixelVert = 375 and pixelHorz  = 391) or
-        (pixelVert = 385 and pixelHorz  = 389) or
-        (pixelVert = 385 and pixelHorz  = 390) or
-        (pixelVert = 385 and pixelHorz  = 391) or
-        (pixelVert = 395 and pixelHorz  = 389) or
-        (pixelVert = 395 and pixelHorz  = 390) or
-        (pixelVert = 395 and pixelHorz  = 391) or
-        (pixelVert = 405 and pixelHorz  = 389) or
-        (pixelVert = 405 and pixelHorz  = 390) or
-        (pixelVert = 405 and pixelHorz  = 391) or
-        (pixelVert = 415 and pixelHorz  = 389) or
-        (pixelVert = 415 and pixelHorz  = 390) or
-        (pixelVert = 415 and pixelHorz  = 391) or
-        (pixelVert = 425 and pixelHorz  = 389) or
-        (pixelVert = 425 and pixelHorz  = 390) or
-        (pixelVert = 425 and pixelHorz  = 391) or
-        (pixelVert = 435 and pixelHorz  = 389) or
-        (pixelVert = 435 and pixelHorz  = 390) or
-        (pixelVert = 435 and pixelHorz  = 391) or
-        (pixelVert = 445 and pixelHorz  = 389) or
-        (pixelVert = 445 and pixelHorz  = 390) or
-        (pixelVert = 445 and pixelHorz  = 391) or
-        (pixelVert = 455 and pixelHorz  = 389) or
-        (pixelVert = 455 and pixelHorz  = 390) or
-        (pixelVert = 455 and pixelHorz  = 391) or
-        (pixelVert = 465 and pixelHorz  = 389) or
-        (pixelVert = 465 and pixelHorz  = 390) or
-        (pixelVert = 465 and pixelHorz  = 391) or
-        (pixelVert = 475 and pixelHorz  = 389) or
-        (pixelVert = 475 and pixelHorz  = 390) or
-        (pixelVert = 475 and pixelHorz  = 391) or
-        (pixelVert = 485 and pixelHorz  = 389) or
-        (pixelVert = 485 and pixelHorz  = 390) or
-        (pixelVert = 485 and pixelHorz  = 391) or
-        (pixelVert = 495 and pixelHorz  = 389) or
-        (pixelVert = 495 and pixelHorz  = 390) or
-        (pixelVert = 495 and pixelHorz  = 391) or
-        (pixelVert = 505 and pixelHorz  = 389) or
-        (pixelVert = 505 and pixelHorz  = 390) or
-        (pixelVert = 505 and pixelHorz  = 391) or
-        (pixelVert = 515 and pixelHorz  = 389) or
-        (pixelVert = 515 and pixelHorz  = 390) or
-        (pixelVert = 515 and pixelHorz  = 391) or
-        (pixelVert = 525 and pixelHorz  = 389) or
-        (pixelVert = 525 and pixelHorz  = 390) or
-        (pixelVert = 525 and pixelHorz  = 391) or
-        (pixelVert = 535 and pixelHorz  = 389) or
-        (pixelVert = 535 and pixelHorz  = 390) or
-        (pixelVert = 535 and pixelHorz  = 391) or
-        (pixelVert = 545 and pixelHorz  = 389) or
-        (pixelVert = 545 and pixelHorz  = 390) or
-        (pixelVert = 545 and pixelHorz  = 391) or
-        (pixelVert = 555 and pixelHorz  = 389) or
-        (pixelVert = 555 and pixelHorz  = 390) or
-        (pixelVert = 555 and pixelHorz  = 391))
-    else '0';
-    LineHorz <= '1' when
-        (pixelVert = 188 or
-        pixelVert = 231 or
-        pixelVert = 274 or
-        pixelVert = 317 or
-        pixelVert = 360 or
-        pixelVert = 403 or
-        pixelVert = 446 or
-        pixelVert = 489 or
-        pixelVert = 532)
-    else '0';
+    TickHorz <= '1' when (pixelHorz = 270 and pixelVert = 359) or
+                (pixelHorz = 270 and pixelVert = 360) or
+                (pixelHorz = 270 and pixelVert = 361) or
+                (pixelHorz = 289 and pixelVert = 359) or
+                (pixelHorz = 289 and pixelVert = 360) or
+                (pixelHorz = 289 and pixelVert = 361) or
+                (pixelHorz = 308 and pixelVert = 359) or
+                (pixelHorz = 308 and pixelVert = 360) or
+                (pixelHorz = 308 and pixelVert = 361) or
+                (pixelHorz = 328 and pixelVert = 359) or
+                (pixelHorz = 328 and pixelVert = 360) or
+                (pixelHorz = 328 and pixelVert = 361) or
+                (pixelHorz = 348 and pixelVert = 359) or
+                (pixelHorz = 348 and pixelVert = 360) or
+                (pixelHorz = 348 and pixelVert = 361) or
+                (pixelHorz = 367 and pixelVert = 359) or
+                (pixelHorz = 367 and pixelVert = 360) or
+                (pixelHorz = 367 and pixelVert = 361) or
+                (pixelHorz = 386 and pixelVert = 359) or
+                (pixelHorz = 386 and pixelVert = 360) or
+                (pixelHorz = 386 and pixelVert = 361) or
+                (pixelHorz = 406 and pixelVert = 359) or
+                (pixelHorz = 406 and pixelVert = 360) or
+                (pixelHorz = 406 and pixelVert = 361) or
+                (pixelHorz = 426 and pixelVert = 359) or
+                (pixelHorz = 426 and pixelVert = 360) or
+                (pixelHorz = 426 and pixelVert = 361) or
+                (pixelHorz = 445 and pixelVert = 359) or
+                (pixelHorz = 445 and pixelVert = 360) or
+                (pixelHorz = 445 and pixelVert = 361) or
+                (pixelHorz = 464 and pixelVert = 359) or
+                (pixelHorz = 464 and pixelVert = 360) or
+                (pixelHorz = 464 and pixelVert = 361) or
+                (pixelHorz = 484 and pixelVert = 359) or
+                (pixelHorz = 484 and pixelVert = 360) or
+                (pixelHorz = 484 and pixelVert = 361) or
+                (pixelHorz = 504 and pixelVert = 359) or
+                (pixelHorz = 504 and pixelVert = 360) or
+                (pixelHorz = 504 and pixelVert = 361) or
+                (pixelHorz = 523 and pixelVert = 359) or
+                (pixelHorz = 523 and pixelVert = 360) or
+                (pixelHorz = 523 and pixelVert = 361) or
+                (pixelHorz = 542 and pixelVert = 359) or
+                (pixelHorz = 542 and pixelVert = 360) or
+                (pixelHorz = 542 and pixelVert = 361) or
+                (pixelHorz = 562 and pixelVert = 359) or
+                (pixelHorz = 562 and pixelVert = 360) or
+                (pixelHorz = 562 and pixelVert = 361) or
+                (pixelHorz = 582 and pixelVert = 359) or
+                (pixelHorz = 582 and pixelVert = 360) or
+                (pixelHorz = 582 and pixelVert = 361) or
+                (pixelHorz = 601 and pixelVert = 359) or
+                (pixelHorz = 601 and pixelVert = 360) or
+                (pixelHorz = 601 and pixelVert = 361) or
+                (pixelHorz = 620 and pixelVert = 359) or
+                (pixelHorz = 620 and pixelVert = 360) or
+                (pixelHorz = 620 and pixelVert = 361) or
+                (pixelHorz = 640 and pixelVert = 359) or
+                (pixelHorz = 640 and pixelVert = 360) or
+                (pixelHorz = 640 and pixelVert = 361) or
+                (pixelHorz = 660 and pixelVert = 359) or
+                (pixelHorz = 660 and pixelVert = 360) or
+                (pixelHorz = 660 and pixelVert = 361) or
+                (pixelHorz = 679 and pixelVert = 359) or
+                (pixelHorz = 679 and pixelVert = 360) or
+                (pixelHorz = 679 and pixelVert = 361) or
+                (pixelHorz = 698 and pixelVert = 359) or
+                (pixelHorz = 698 and pixelVert = 360) or
+                (pixelHorz = 698 and pixelVert = 361) or
+                (pixelHorz = 718 and pixelVert = 359) or
+                (pixelHorz = 718 and pixelVert = 360) or
+                (pixelHorz = 718 and pixelVert = 361) or
+                (pixelHorz = 738 and pixelVert = 359) or
+                (pixelHorz = 738 and pixelVert = 360) or
+                (pixelHorz = 738 and pixelVert = 361) or
+                (pixelHorz = 757 and pixelVert = 359) or
+                (pixelHorz = 757 and pixelVert = 360) or
+                (pixelHorz = 757 and pixelVert = 361) or
+                (pixelHorz = 776 and pixelVert = 359) or
+                (pixelHorz = 776 and pixelVert = 360) or
+                (pixelHorz = 776 and pixelVert = 361) or
+                (pixelHorz = 796 and pixelVert = 359) or
+                (pixelHorz = 796 and pixelVert = 360) or
+                (pixelHorz = 796 and pixelVert = 361) or
+                (pixelHorz = 816 and pixelVert = 359) or
+                (pixelHorz = 816 and pixelVert = 360) or
+                (pixelHorz = 816 and pixelVert = 361) or
+                (pixelHorz = 835 and pixelVert = 359) or
+                (pixelHorz = 835 and pixelVert = 360) or
+                (pixelHorz = 835 and pixelVert = 361) or
+                (pixelHorz = 854 and pixelVert = 359) or
+                (pixelHorz = 854 and pixelVert = 360) or
+                (pixelHorz = 854 and pixelVert = 361) or
+                (pixelHorz = 874 and pixelVert = 359) or
+                (pixelHorz = 874 and pixelVert = 360) or
+                (pixelHorz = 874 and pixelVert = 361) or
+                (pixelHorz = 894 and pixelVert = 359) or
+                (pixelHorz = 894 and pixelVert = 360) or
+                (pixelHorz = 894 and pixelVert = 361) or
+                (pixelHorz = 913 and pixelVert = 359) or
+                (pixelHorz = 913 and pixelVert = 360) or
+                (pixelHorz = 913 and pixelVert = 361) or
+                (pixelHorz = 932 and pixelVert = 359) or
+                (pixelHorz = 932 and pixelVert = 360) or
+                (pixelHorz = 932 and pixelVert = 361) or
+                (pixelHorz = 952 and pixelVert = 359) or
+                (pixelHorz = 952 and pixelVert = 360) or
+                (pixelHorz = 952 and pixelVert = 361) or
+                (pixelHorz = 972 and pixelVert = 359) or
+                (pixelHorz = 972 and pixelVert = 360) or
+                (pixelHorz = 972 and pixelVert = 361) or
+                (pixelHorz = 991 and pixelVert = 359) or
+                (pixelHorz = 991 and pixelVert = 360) or
+                (pixelHorz = 991 and pixelVert = 361) or
+                (pixelHorz = 1010 and pixelVert = 359) or
+                (pixelHorz = 1010 and pixelVert = 360) or
+                (pixelHorz = 1010 and pixelVert = 361) else '0';
+
+TickVert <= '1' when (pixelVert = 156 and pixelHorz = 639) or
+                (pixelVert = 156 and pixelHorz = 640) or
+                (pixelVert = 156 and pixelHorz = 641) or
+                (pixelVert = 167 and pixelHorz = 639) or
+                (pixelVert = 167 and pixelHorz = 640) or
+                (pixelVert = 167 and pixelHorz = 641) or
+                (pixelVert = 177 and pixelHorz = 639) or
+                (pixelVert = 177 and pixelHorz = 640) or
+                (pixelVert = 177 and pixelHorz = 641) or
+                (pixelVert = 188 and pixelHorz = 639) or
+                (pixelVert = 188 and pixelHorz = 640) or
+                (pixelVert = 188 and pixelHorz = 641) or
+                (pixelVert = 199 and pixelHorz = 639) or
+                (pixelVert = 199 and pixelHorz = 640) or
+                (pixelVert = 199 and pixelHorz = 641) or
+                (pixelVert = 209 and pixelHorz = 639) or
+                (pixelVert = 209 and pixelHorz = 640) or
+                (pixelVert = 209 and pixelHorz = 641) or
+                (pixelVert = 220 and pixelHorz = 639) or
+                (pixelVert = 220 and pixelHorz = 640) or
+                (pixelVert = 220 and pixelHorz = 641) or
+                (pixelVert = 231 and pixelHorz = 639) or
+                (pixelVert = 231 and pixelHorz = 640) or
+                (pixelVert = 231 and pixelHorz = 641) or
+                (pixelVert = 242 and pixelHorz = 639) or
+                (pixelVert = 242 and pixelHorz = 640) or
+                (pixelVert = 242 and pixelHorz = 641) or
+                (pixelVert = 253 and pixelHorz = 639) or
+                (pixelVert = 253 and pixelHorz = 640) or
+                (pixelVert = 253 and pixelHorz = 641) or
+                (pixelVert = 263 and pixelHorz = 639) or
+                (pixelVert = 263 and pixelHorz = 640) or
+                (pixelVert = 263 and pixelHorz = 641) or
+                (pixelVert = 274 and pixelHorz = 639) or
+                (pixelVert = 274 and pixelHorz = 640) or
+                (pixelVert = 274 and pixelHorz = 641) or
+                (pixelVert = 285 and pixelHorz = 639) or
+                (pixelVert = 285 and pixelHorz = 640) or
+                (pixelVert = 285 and pixelHorz = 641) or
+                (pixelVert = 295 and pixelHorz = 639) or
+                (pixelVert = 295 and pixelHorz = 640) or
+                (pixelVert = 295 and pixelHorz = 641) or
+                (pixelVert = 306 and pixelHorz = 639) or
+                (pixelVert = 306 and pixelHorz = 640) or
+                (pixelVert = 306 and pixelHorz = 641) or
+                (pixelVert = 317 and pixelHorz = 639) or
+                (pixelVert = 317 and pixelHorz = 640) or
+                (pixelVert = 317 and pixelHorz = 641) or
+                (pixelVert = 328 and pixelHorz = 639) or
+                (pixelVert = 328 and pixelHorz = 640) or
+                (pixelVert = 328 and pixelHorz = 641) or
+                (pixelVert = 339 and pixelHorz = 639) or
+                (pixelVert = 339 and pixelHorz = 640) or
+                (pixelVert = 339 and pixelHorz = 641) or
+                (pixelVert = 349 and pixelHorz = 639) or
+                (pixelVert = 349 and pixelHorz = 640) or
+                (pixelVert = 349 and pixelHorz = 641) or
+                (pixelVert = 360 and pixelHorz = 639) or
+                (pixelVert = 360 and pixelHorz = 640) or
+                (pixelVert = 360 and pixelHorz = 641) or
+                (pixelVert = 371 and pixelHorz = 639) or
+                (pixelVert = 371 and pixelHorz = 640) or
+                (pixelVert = 371 and pixelHorz = 641) or
+                (pixelVert = 381 and pixelHorz = 639) or
+                (pixelVert = 381 and pixelHorz = 640) or
+                (pixelVert = 381 and pixelHorz = 641) or
+                (pixelVert = 392 and pixelHorz = 639) or
+                (pixelVert = 392 and pixelHorz = 640) or
+                (pixelVert = 392 and pixelHorz = 641) or
+                (pixelVert = 403 and pixelHorz = 639) or
+                (pixelVert = 403 and pixelHorz = 640) or
+                (pixelVert = 403 and pixelHorz = 641) or
+                (pixelVert = 414 and pixelHorz = 639) or
+                (pixelVert = 414 and pixelHorz = 640) or
+                (pixelVert = 414 and pixelHorz = 641) or
+                (pixelVert = 425 and pixelHorz = 639) or
+                (pixelVert = 425 and pixelHorz = 640) or
+                (pixelVert = 425 and pixelHorz = 641) or
+                (pixelVert = 435 and pixelHorz = 639) or
+                (pixelVert = 435 and pixelHorz = 640) or
+                (pixelVert = 435 and pixelHorz = 641) or
+                (pixelVert = 446 and pixelHorz = 639) or
+                (pixelVert = 446 and pixelHorz = 640) or
+                (pixelVert = 446 and pixelHorz = 641) or
+                (pixelVert = 457 and pixelHorz = 639) or
+                (pixelVert = 457 and pixelHorz = 640) or
+                (pixelVert = 457 and pixelHorz = 641) or
+                (pixelVert = 467 and pixelHorz = 639) or
+                (pixelVert = 467 and pixelHorz = 640) or
+                (pixelVert = 467 and pixelHorz = 641) or
+                (pixelVert = 478 and pixelHorz = 639) or
+                (pixelVert = 478 and pixelHorz = 640) or
+                (pixelVert = 478 and pixelHorz = 641) or
+                (pixelVert = 489 and pixelHorz = 639) or
+                (pixelVert = 489 and pixelHorz = 640) or
+                (pixelVert = 489 and pixelHorz = 641) or
+                (pixelVert = 500 and pixelHorz = 639) or
+                (pixelVert = 500 and pixelHorz = 640) or
+                (pixelVert = 500 and pixelHorz = 641) or
+                (pixelVert = 511 and pixelHorz = 639) or
+                (pixelVert = 511 and pixelHorz = 640) or
+                (pixelVert = 511 and pixelHorz = 641) or
+                (pixelVert = 521 and pixelHorz = 639) or
+                (pixelVert = 521 and pixelHorz = 640) or
+                (pixelVert = 521 and pixelHorz = 641) or
+                (pixelVert = 532 and pixelHorz = 639) or
+                (pixelVert = 532 and pixelHorz = 640) or
+                (pixelVert = 532 and pixelHorz = 641) or
+                (pixelVert = 543 and pixelHorz = 639) or
+                (pixelVert = 543 and pixelHorz = 640) or
+                (pixelVert = 543 and pixelHorz = 641) or
+                (pixelVert = 553 and pixelHorz = 639) or
+                (pixelVert = 553 and pixelHorz = 640) or
+                (pixelVert = 553 and pixelHorz = 641) or
+                (pixelVert = 564 and pixelHorz = 639) or
+                (pixelVert = 564 and pixelHorz = 640) or
+                (pixelVert = 564 and pixelHorz = 641) else '0';
+
+LineHorz <= '1' when (pixelHorz >= 250 and pixelHorz <= 1030) and (
+    pixelVert = 188
+    or pixelVert = 231
+    or pixelVert = 274
+    or pixelVert = 317
+    or pixelVert = 360
+    or pixelVert = 403
+    or pixelVert = 446
+    or pixelVert = 489
+    or pixelVert = 532
+) else '0';
+
+LineVert <= '1' when (pixelVert >= 145 and pixelVert <= 575) and (
+    pixelHorz = 328
+    or pixelHorz = 406
+    or pixelHorz = 484
+    or pixelHorz = 562
+    or pixelHorz = 640
+    or pixelHorz = 718
+    or pixelHorz = 796
+    or pixelHorz = 874
+    or pixelHorz = 952
+) else '0';
+
     
-    LineVert <= '1' when
-        (pixelHorz = 328 or
-        pixelHorz = 406 or
-        pixelHorz = 484 or
-        pixelHorz = 562 or
-        pixelHorz = 640 or
-        pixelHorz = 718 or
-        pixelHorz = 796 or
-        pixelHorz = 874 or
-        pixelHorz = 952)
-    else '0';
-
-
 end Behavioral;
