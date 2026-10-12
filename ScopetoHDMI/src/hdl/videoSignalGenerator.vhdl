@@ -23,7 +23,6 @@ architecture behavior of videoSignalGenerator is
     signal h_cnt, v_cnt : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     signal h_activeArea, v_activeArea: STD_LOGIC;
 
-
 begin
 
     -- Register the de (active video area) signal

@@ -22,4 +22,6 @@ begin
 	g <= tmp(2);
 	l <= tmp(1);
 	e <= tmp(0);
+
+
 end behavior;
