@@ -25,11 +25,17 @@ package signalAcquire_Package is
 constant clk_period : time := 20 ns;			-- 50Mhz crystal input (XTL_IN).
    
    
--- CONSTANT CONVST_CW_BIT_INDEX : NATURAL := ?
--- CONSTANT RD_CW_BIT_INDEX : NATURAL := ?;
--- CONSTANT CS_CW_BIT_INDEX : NATURAL := ?;
--- CONSTANT RESET_AD7606_CW_BIT_INDEX : NATURAL := ?;
--- CONSTANT REF_FILE_WRITE_CW_BIT_INDEX : NATURAL := ?;
+    CONSTANT CONVST_CW_BIT_INDEX : NATURAL := 0;
+    CONSTANT RD_CW_BIT_INDEX : NATURAL := 1;
+    CONSTANT CS_CW_BIT_INDEX : NATURAL := 2;
+    CONSTANT RESET_AD7606_CW_BIT_INDEX : NATURAL := 3;
+    CONSTANT REF_FILE_WRITE_CW_BIT_INDEX : NATURAL := 4;
+    CONSTANT REG_COUNT_CW_BIT_0_INDEX : NATURAL := 5;
+    CONSTANT REG_COUNT_CW_BIT_1_INDEX : NATURAL := 6;
+    CONSTANT LONG_COUNT_CW_BIT_0_INDEX : NATURAL := 7;
+    CONSTANT LONG_COUNT_CW_BIT_1_INDEX : NATURAL := 8;
+    CONSTANT SHORT_COUNT_CW_BIT_0_INDEX : NATURAL := 9;
+    CONSTANT SHORT_COUNT_CW_BIT_1_INDEX : NATURAL := 10;
 
     CONSTANT DATAPATH_SW_WIDTH : NATURAL := 3;  
     CONSTANT ALL_CHANNELS_HAVE_BEEN_READ_SW_BIT_INDEX : NATURAL := 0;
@@ -39,7 +45,7 @@ constant clk_period : time := 20 ns;			-- 50Mhz crystal input (XTL_IN).
     CONSTANT BUSY_SW_BIT_INDEX : NATURAL := 4;  
    
     CONSTANT SW_WIDTH : NATURAL := 5 -- 3 bits from DP(Long delay, short delay, reg file), busy, start conversion(btn). Might be others, need to confirm this number;
--- CONSTANT CW_WIDTH : NATURAL := ?;
+    CONSTANT CW_WIDTH : NATURAL := 11; -- 4 bits to an7606, 1 bit to reg file, 2 bits to reg count, 2 bits to long delay, 2 bit to short delay. Might be others, need to confirm this number;
 
     CONSTANT LONG_DELAY_50Mhz_CONST_WIDTH : NATURAL := 24;
     CONSTANT LONG_DELAY_50Mhz_COUNTS : STD_LOGIC_VECTOR(LONG_DELAY_50Mhz_CONST_WIDTH - 1 downto 0) := x"00FFFF";

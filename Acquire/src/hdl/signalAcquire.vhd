@@ -39,6 +39,16 @@ architecture behavior of signalAcquire is
 begin
 
 
+
+
+	-- Button Process
+	process(clk)
+	begin
+		if (rising_edge(clk)) then
+			if (resetn = '0') then	
+				
 	<complete>
+
+
  
 end behavior;
