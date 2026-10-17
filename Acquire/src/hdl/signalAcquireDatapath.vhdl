@@ -20,6 +20,7 @@
 ------------------------------------------------------------------------- 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use work.signalAcquire_Package.all;			
 use work.basicBuildingBlocks_package.all;				-- include the basic building block library
 
 entity signalAcquire_Datapath is
@@ -86,7 +87,7 @@ begin
 					resetn => resetn,
 					c => cw(REGCOUNT_CW_BIT_INDEX),
 					q => x'0000',
-					d => regCountOut`
+					d => regCountOut
 		);
 
 	-- reg file comparator instantiation
@@ -110,8 +111,5 @@ begin
                 D => an7606data,
                 Q => rfData 
 				);
-
-
-	<complete>
 
 end behavior;

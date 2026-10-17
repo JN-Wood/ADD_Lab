@@ -129,17 +129,17 @@ begin
 	output_process: process (state)
 	begin
 	    case state is
-            when RESET_STATE =>   		cw <= 	"11101111110";
-			when LONG_DELAY_STATE => 	cw <= 	"11101011000";
-			when RESET_AD7606_STATE => 	cw <= 	"11110010000";
-			when WAIT_TRIGGER_STATE => 	cw <= 	"11100011000";
-			when ASSERT_CONVST_STATE => cw <= 	"01100010000";
-			when WAIT_BUSY0_STATE => 	cw <= 	"11100000000";
-			when WAIT_BUSY1_STATE => 	cw <= 	"11100011110";
-			when WAIT_VALID_STATE => 	cw <= 	"10000010000";
-			when LATCH_STATE => 		cw <= 	"11000011001";
-			when PAUSE_STATE =>			cw <= 	"11000010000";
-			when CLEAR_STATE => 		cw <= 	"11000011100";
+            when RESET_STATE =>   		cw <= "11101111110";
+			when LONG_DELAY_STATE => 	cw <= "11101011000";
+			when RESET_AD7606_STATE => 	cw <= "11110010000";
+			when WAIT_TRIGGER_STATE => 	cw <= "11100011000";
+			when ASSERT_CONVST_STATE => cw <= "01100010000";
+			when WAIT_BUSY0_STATE => 	cw <= "11100000000";
+			when WAIT_BUSY1_STATE => 	cw <= "11100011110";
+			when WAIT_VALID_STATE => 	cw <= "10000010000";
+			when LATCH_STATE => 		cw <= "11000011001";
+			when PAUSE_STATE =>			cw <= "11000010000";
+			when CLEAR_STATE => 		cw <= "11000011100";
 		
 		end case;
 	end process;

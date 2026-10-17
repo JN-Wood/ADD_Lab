@@ -17,9 +17,9 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
-					-- Include any packages that are instantiated
-
-
+use worlk.signalAcquire_Package.all;			-- include your library here with added components ac97, ac97cmd
+use work.basicBuildingBlocks_package.all;		-- include the basic building block library
+									
 entity signalAcquire is
     PORT ( clk : in  STD_LOGIC;
            resetn : in  STD_LOGIC;
@@ -33,20 +33,21 @@ end signalAcquire;
 
 architecture behavior of signalAcquire is
 
-	<complete>
-	
+	signal sw: STD_LOGIC_VECTOR(SW_WIDTH - 1 downto 0);
+	signal cw: STD_LOGIC_VECTOR(CW_WIDTH - 1 downto 0);
+	signal rfData: STD_LOGIC_VECTOR(15 downto 0);
     	
-begin
+begin	
 
 
-
+	
 
 	-- Button Process
 	process(clk)
 	begin
 		if (rising_edge(clk)) then
 			if (resetn = '0') then	
-				
+
 	<complete>
 
 
