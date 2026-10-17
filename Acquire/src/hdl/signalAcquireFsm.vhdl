@@ -33,12 +33,11 @@ architecture Behavioral of signalAcquire_Fsm is
 
 	signal state: state_type;
 	
-	signal ALL_CHANNELS_HAVE_BEEN_READ, SHORT_DELAY_DONE_SW, LONG_DELAY_DONE, START_CONV_SW, BUSY_SW: STD_LOGIC;
+	signal ALL_CHANNELS_HAVE_BEEN_READ_SW, SHORT_DELAY_DONE_SW, LONG_DELAY_DONE, START_CONV_SW, BUSY_SW: STD_LOGIC;
 
 begin
 
     -- defining intuitive names for the status word bits to make interperting the
-    
 	-- logic in the state_process much easier and thus, you'll make fewer errors.
 	ALL_CHANNELS_HAVE_BEEN_READ_SW <= sw(ALL_CHANNELS_HAVE_BEEN_READ_SW_BIT_INDEX);
     SHORT_DELAY_DONE_SW <= sw(SHORT_DELAY_DONE_SW_BIT_INDEX);
@@ -99,7 +98,7 @@ begin
 							state <= WAIT_VALID_STATE;
 						end if;
 					when LATCH_STATE =>
-						PAUSE_STATE <= '1';
+						state <= PAUSE_STATE;
 					when PAUSE_STATE =>
 						if SHORT_DELAY_DONE_SW = '1' then
 							state <= CLEAR_STATE;

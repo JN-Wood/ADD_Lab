@@ -35,9 +35,8 @@ constant clk_period : time := 20 ns;			-- 50Mhz crystal input (XTL_IN).
     CONSTANT SHORT_COUNT_CW_BIT_0_INDEX : NATURAL := 3;
     CONSTANT REG_COUNT_CW_BIT_1_INDEX : NATURAL := 2;
     CONSTANT REG_COUNT_CW_BIT_0_INDEX : NATURAL := 1;
-    CONSTANT REF_FILE_WRITE_CW_BIT_INDEX : NATURAL := 0;
+    CONSTANT REGFILE_WRITE_CW_BIT_INDEX : NATURAL := 0;
     
-
     CONSTANT DATAPATH_SW_WIDTH : NATURAL := 3;  
     CONSTANT ALL_CHANNELS_HAVE_BEEN_READ_SW_BIT_INDEX : NATURAL := 0;
     CONSTANT SHORT_DELAY_DONE_SW_BIT_INDEX : NATURAL := 1;
@@ -45,7 +44,7 @@ constant clk_period : time := 20 ns;			-- 50Mhz crystal input (XTL_IN).
     CONSTANT START_CONV_SW_BIT_INDEX : NATURAL := 3;
     CONSTANT BUSY_SW_BIT_INDEX : NATURAL := 4;  
    
-    CONSTANT SW_WIDTH : NATURAL := 5 -- 3 bits from DP(Long delay, short delay, reg file), busy, start conversion(btn). Might be others, need to confirm this number;
+    CONSTANT SW_WIDTH : NATURAL := 5; -- 3 bits from DP(Long delay, short delay, reg file), busy, start conversion(btn). Might be others, need to confirm this number;
     CONSTANT CW_WIDTH : NATURAL := 11; -- 4 bits to an7606, 1 bit to reg file, 2 bits to reg count, 2 bits to long delay, 2 bit to short delay. Might be others, need to confirm this number;
 
     CONSTANT LONG_DELAY_50Mhz_CONST_WIDTH : NATURAL := 24;
@@ -57,15 +56,31 @@ constant clk_period : time := 20 ns;			-- 50Mhz crystal input (XTL_IN).
     -- You need to determine the 16-bit 2's complement ADC values for these voltages
 
     -- 16-bit 2's complement ADC values for the following voltages:
-    CONSTANT FOURTH_THRESHOLD_CONSTANT : STD_LOGIC_VECTOR(15 downto 0)  := x"10E5";  -- 0.66v*32768/5v = 4325 = 0x10E5
-    CONSTANT THIRD_THRESHOLD_CONSTANT  : STD_LOGIC_VECTOR(15 downto 0)   := x"21CA"; -- 1.32v*32768/5v = 8650 = 0x21CA
-    CONSTANT SECOND_THRESHOLD_CONSTANT : STD_LOGIC_VECTOR(15 downto 0)  := x"32B0";  -- 1.98*32768/5v = 12976 = 0x32B0
-    CONSTANT FIRST_THRESHOLD_CONSTANT  : STD_LOGIC_VECTOR(15 downto 0)   := x"4396"; -- 2.64*32768/5v = 17202 = 0x4396
+    CONSTANT FIRST_THRESHOLD_CONSTANT : STD_LOGIC_VECTOR(15 downto 0)  := x"10E5";  -- 0.66v*32768/5v = 4325 = 0x10E5
+    CONSTANT SECOND_THRESHOLD_CONSTANT  : STD_LOGIC_VECTOR(15 downto 0)   := x"21CA"; -- 1.32v*32768/5v = 8650 = 0x21CA
+    CONSTANT THIRD_THRESHOLD_CONSTANT : STD_LOGIC_VECTOR(15 downto 0)  := x"32B0";  -- 1.98*32768/5v = 12976 = 0x32B0
+    CONSTANT FOURTH_THRESHOLD_CONSTANT  : STD_LOGIC_VECTOR(15 downto 0)   := x"4396"; -- 2.64*32768/5v = 17202 = 0x4396
 
+    CONSTANT OS_VALUE : STD_LOGIC_VECTOR(2 downto 0) := "000"; -- OS = 0, 1, 2, 3, 4, 5, 6, 7 for OS = 1, 2, 4, 8, 16, 32, 64, 128 respectively. This is the oversampling ratio for the AD7606. The higher the OS value the more accurate the ADC conversion will be. The lower the OS value the faster the ADC conversion will be.
 -- component signalAcquire_Fsm is
+component signalAcquire_Fsm is
+    PORT (  clk : in  STD_LOGIC;
+            resetn : in  STD_LOGIC;
+            sw: in STD_LOGIC_VECTOR(SW_WIDTH - 1 downto 0);
+            cw: out STD_LOGIC_VECTOR (CW_WIDTH - 1 downto 0));
+end component;
 -- You need to complete this declaration
 
 -- component signalAcquire_Datapath is
+    component signalAcquire_Datapath is
+    PORT ( clk : in  STD_LOGIC;
+           resetn : in  STD_LOGIC;
+		   an7606data: in STD_LOGIC_VECTOR(15 downto 0);
+		   rfAddr: in STD_LOGIC_VECTOR(2 downto 0);
+		   rfData: out STD_LOGIC_VECTOR(15 downto 0);
+		   cw : in STD_LOGIC_VECTOR(CW_WIDTH -1 downto 0);
+		   sw : out STD_LOGIC_VECTOR(DATAPATH_SW_WIDTH - 1 downto 0));
+    end component;
 -- You need to complete this declaration
 
 

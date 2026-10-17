@@ -24,13 +24,14 @@ use work.signalAcquire_Package.all;
 use work.basicBuildingBlocks_package.all;				-- include the basic building block library
 
 entity signalAcquire_Datapath is
-		   cw : in STD_LOGIC_VECTOR(CW_WIDTH -1 downto 0);
-		   sw : out STD_
+		   
     PORT ( clk : in  STD_LOGIC;
-           resetn : in  STD_LOGIC;LOGIC_VECTOR(DATAPATH_SW_WIDTH - 1 downto 0);
+           resetn : in  STD_LOGIC;
 		   an7606data: in STD_LOGIC_VECTOR(15 downto 0);
 		   rfAddr: in STD_LOGIC_VECTOR(2 downto 0);
-		   rfData: out STD_LOGIC_VECTOR(15 downto 0) );
+		   rfData: out STD_LOGIC_VECTOR(15 downto 0) ;
+		   cw : in STD_LOGIC_VECTOR(CW_WIDTH -1 downto 0);
+		   sw : out STD_LOGIC_VECTOR(DATAPATH_SW_WIDTH - 1 downto 0));
 end signalAcquire_Datapath;
 
 architecture behavior of signalAcquire_Datapath is
@@ -45,9 +46,9 @@ begin
 		generic Map(N => LONG_DELAY_50Mhz_CONST_WIDTH)
 		port Map(	clk => clk,
 					resetn => resetn,
-					c => cw(LONG_DELAY_CW_BIT_INDEX),
+					c => cw(LONG_COUNT_CW_BIT_1_INDEX downto LONG_COUNT_CW_BIT_0_INDEX),
 					q => longDelayCounterOut,
-					d => x'000000'
+					d => x"000000"
 	);
 
 	--Short delay counter instantiation
@@ -55,13 +56,13 @@ begin
 		generic Map(N => SHORT_DELAY_50Mhz_CONST_WIDTH)
 		port Map(	clk => clk,
 					resetn => resetn,
-					c => cw(SHORT_DELAY_CW_BIT_INDEX),
+					c => cw(SHORT_COUNT_CW_BIT_1_INDEX downto SHORT_COUNT_CW_BIT_0_INDEX),
 					q => shortDelayCounterOut,
-					d => x'000000'
+					d => x"00"
 	);
 
 	-- Long delay comparator instantiation
-	longDelayComparator: genericComparator
+	longDelayComparator: genericCompare
 		generic Map(N => LONG_DELAY_50Mhz_CONST_WIDTH)
 		port Map(	x => LONG_DELAY_50Mhz_COUNTS,
 					y => longDelayCounterOut,
@@ -71,7 +72,7 @@ begin
 	);
 
 	-- Short delay comparator instantiation
-	shortDelayComparator: genericComparator
+	shortDelayComparator: genericCompare
 		generic Map(N => SHORT_DELAY_50Mhz_CONST_WIDTH)
 		port Map(	x => SHORT_DELAY_50Mhz_COUNTS,
 					y => shortDelayCounterOut,
@@ -85,23 +86,23 @@ begin
 		generic Map(N => 4)
 		port Map(	clk => clk,
 					resetn => resetn,
-					c => cw(REGCOUNT_CW_BIT_INDEX),
-					q => x'0000',
-					d => regCountOut
+					c => cw(REG_COUNT_CW_BIT_1_INDEX downto REG_COUNT_CW_BIT_0_INDEX),
+					q => regCountOut,
+					d => "0000"
 		);
-
+		
 	-- reg file comparator instantiation
-	regCompare: genericComparator
+	regCompare: genericCompare
 		generic Map(N => 4)
-		port Map(	x => '0111',
+		port Map(	x => "0111",
 					y => regCountOut,
 					g => open,
 					l => open,
 					e => sw(ALL_CHANNELS_HAVE_BEEN_READ_SW_BIT_INDEX)
 				);
-
+	
 	-- reg file instantiation
-	regFile: regFile8x16
+	regFile: generic8RegisterFile
 		generic Map(N => 16)
 		port Map(  clk => clk, 
 				resetn => resetn,
