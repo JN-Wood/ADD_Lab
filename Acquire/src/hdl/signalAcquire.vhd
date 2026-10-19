@@ -39,13 +39,15 @@ architecture behavior of signalAcquire is
     signal prevButton, currButton: STD_LOGIC;
 begin	
 
+	
  	sw(BUSY_SW_BIT_INDEX) <= an7606busy;
 	an7606convst <= cw(CONVST_CW_BIT_INDEX);
 	an7606cs <= cw(CS_CW_BIT_INDEX);
 	an7606rd <= cw(RD_CW_BIT_INDEX);
 	an7606reset <= cw(RESET_AD7606_CW_BIT_INDEX);	
+	an7606od <= OS_VALUE;
 
-
+	
 
 	Datapath:signalAcquire_Datapath
 		PORT MAP ( clk => clk,
@@ -64,35 +66,79 @@ begin
 				);
 
 
-	process(clk)
-	begin
-		if (an7606data(15 downto 8)> FOURTH_THRESHOLD_CONSTANT) then
-			reg0Magnitude <= "0000";
-		elsif (an7606data(15 downto 8)> THIRD_THRESHOLD_CONSTANT) then
-			reg0Magnitude <= "1000";
-		elsif (an7606data(15 downto 8)> SECOND_THRESHOLD_CONSTANT) then
-			reg0Magnitude <= "1100";
-		elsif (an7606data(15 downto 8)> FIRST_THRESHOLD_CONSTANT) then
-			reg0Magnitude <= "1110";
-		else
-			reg0Magnitude <= "1111";
-		end if;   
-	end process;
+	--process(clk)
+    --begin
+    --    if rising_edge(clk) then
+    --        if resetn = '0' then
+    --            reg0Magnitude <= "1111";
+    --        else
+    --            if (rfData(15 downto 8) > FOURTH_THRESHOLD_CONSTANT) then
+    --                reg0Magnitude <= "0000"; -- 4 LEDs ON
+    --            elsif (rfData(15 downto 8) > THIRD_THRESHOLD_CONSTANT) then
+    --                reg0Magnitude <= "0001"; -- 3 LEDs ON
+    --            elsif (rfData(15 downto 8) > SECOND_THRESHOLD_CONSTANT) then
+    --                reg0Magnitude <= "0011"; -- 2 LEDs ON
+    --            elsif (rfData(15 downto 8) > FIRST_THRESHOLD_CONSTANT) then
+    --                reg0Magnitude <= "0111"; -- 1 LED ON
+    --            else
+    --                reg0Magnitude <= "1111"; -- 0 LEDs ON
+    --            end if;
+    --        end if;   
+    --    end if;
+    --end process;
 
+
+	compareFour: genericCompare
+		generic Map(N => 16)
+		port Map(	x => rfData,
+					y => FOURTH_THRESHOLD_CONSTANT,
+					l => reg0Magnitude(3),
+					g => open,
+					e => open
+				);
+
+	compareThree: genericCompare
+		generic Map(N => 16)
+		port Map(	x => rfData,
+					y => THIRD_THRESHOLD_CONSTANT,
+					l => reg0Magnitude(2),
+					g => open,
+					e => open
+				);	
+	compareTwo: genericCompare
+		generic Map(N => 16)
+		port Map(	x => rfData,
+					y => SECOND_THRESHOLD_CONSTANT,
+					l => reg0Magnitude(1),
+					g => open,
+					e => open
+				);
+	compareOne: genericCompare
+		generic Map(N => 16)
+		port Map(	x => rfData,
+					y => FIRST_THRESHOLD_CONSTANT,
+					l=> reg0Magnitude(0),
+					g => open,
+					e => open
+				);
+		
 	-- Button Process
 	process(clk)
 	begin
-		if (rising_edge(clk)) then
-			if (resetn = '0') then
-				prevButton <= '0';
-				currButton <= '0';
-			else
-				prevButton <= currButton;
-				currButton <= btn(0);
-				sw(START_CONV_SW_BIT_INDEX) <= currButton xor prevButton;
+    	if rising_edge(clk) then
+        	if resetn = '0' then
+            	prevButton <= '1';
+            	currButton <= '1';
 				
-			end if;	
-		end if;
+        	else
+           		currButton <= btn(0);
+           		prevButton <= currButton;
+			    
+        	end if; 
+    	end if;
+		sw(START_CONV_SW_BIT_INDEX) <= prevButton and not currButton;
 	end process;
+	
+	
  
 end behavior;
