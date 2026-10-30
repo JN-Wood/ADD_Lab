@@ -5,7 +5,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use IEEE.NUMERIC_STD.ALL;
-use work.hdmi_package.all;
+use work.scopeToHDMI_Package.all;
 
 
 package acquireToHDMI_package is
@@ -68,6 +68,7 @@ CONSTANT SHORT_DELAY_DONE_SW_BIT_INDEX : NATURAL := 2;
 CONSTANT LONG_DELAY_DONE_SW_BIT_INDEX : NATURAL := 1;
 CONSTANT SAMPLE_SW_BIT_INDEX : NATURAL := 0;
 
+---------------------------- CONSTANTS -----------------------------
 CONSTANT LONG_DELAY_50Mhz_CONST_WIDTH : NATURAL := 24;
 CONSTANT LONG_DELAY_50Mhz_COUNTS : STD_LOGIC_VECTOR(LONG_DELAY_50Mhz_CONST_WIDTH - 1 downto 0) := x"00FFFF";
 
@@ -79,6 +80,7 @@ CONSTANT HIGH_RATE      : STD_LOGIC_VECTOR(31 downto 0) := STD_LOGIC_VECTOR(to_u
 CONSTANT LOWEST_RATE    : STD_LOGIC_VECTOR(31 downto 0) := STD_LOGIC_VECTOR(to_unsigned(1200, 32));
 CONSTANT LOW_RATE       : STD_LOGIC_VECTOR(31 downto 0) := STD_LOGIC_VECTOR(to_unsigned(2400, 32));
 
+CONSTANT DATA_WIDTH : NATURAL := 16;
 component acquireToHDMI_fsm is
 end component;
 
@@ -96,6 +98,11 @@ component an7606 is
            an7606busy : out STD_LOGIC);
 END component;
 
+component signedToPixel is
+  PORT(
+    signedIn : in STD_LOGIC_VECTOR(15 downto 0);
+    pixelOut : out STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0)
+  );
 component blk_mem_gen_0 is
   PORT (
     clka : IN STD_LOGIC;

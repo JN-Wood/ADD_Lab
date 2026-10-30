@@ -83,8 +83,6 @@ package scopeToHdmi_package is
     constant TRIGGER_B  : STD_LOGIC_VECTOR(7 downto 0) := X"FF";
 
 
-
-
     constant TRIGGER_MARKER_WIDTH       :STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS -1 downto 0) := std_logic_vector(to_unsigned(10, VIDEO_WIDTH_IN_BITS));-- half width of trigger marker feature
     constant TRIGGER_MARKER_HEIGHT      :STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS -1 downto 0) := std_logic_vector(to_unsigned(10, VIDEO_WIDTH_IN_BITS));-- height of trigger marker feature
 component videoSignalGenerator is
