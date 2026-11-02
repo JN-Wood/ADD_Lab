@@ -70,6 +70,11 @@ architecture behavior of acquireToHDMI_datapath is
     signal ch1: STD_LOGIC;
     signal ch2: STD_LOGIC;
 
+    signal ch1Data16bitSignedSLV: STD_LOGIC_VECTOR(15 downto 0);
+    signal ch2Data16bitSignedSLV: STD_LOGIC_VECTOR(15 downto 0);
+    signal ch1GreaterThan: STD_LOGIC;
+    signal ch2GreaterThan: STD_LOGIC;
+
     signal longDelayCounterOut: STD_LOGIC_VECTOR(LONG_DELAY_50Mhz_CONST_WIDTH - 1 downto 0);
 	signal shortDelayCounterOut: STD_LOGIC_VECTOR(SHORT_DELAY_50Mhz_CONST_WIDTH - 1 downto 0);	
     signal sampleCounterOut :STD_LOGIC_VECTOR(31 downto 0);
@@ -206,6 +211,19 @@ begin
             l => open, 
             e => ch2
         );
+
+-- CH1 Trigger Detection
+    prevReg: genericRegister
+        generic Map(16)
+        port Map(
+            clk => clk,
+            resetn => resetn,
+            d => ch1,
+            q => ch1Data16bitSignedSLV
+        );
+
+
+
 
     -- Simple SR Latch to assist FSM
     process(clk)
