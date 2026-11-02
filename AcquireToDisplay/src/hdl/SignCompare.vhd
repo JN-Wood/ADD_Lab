@@ -4,8 +4,7 @@ use ieee.numeric_std.all;
 
 entity signedCompare is
     generic(N: integer := 16);
-    port(
-        x, y : in std_logic_vector(N-1 downto 0);
+    port(x, y : in std_logic_vector(N-1 downto 0);
         g, l, e : out std_logic
     );
 end signedCompare;
