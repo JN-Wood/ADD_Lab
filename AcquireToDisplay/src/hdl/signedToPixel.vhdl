@@ -5,7 +5,7 @@ use work.scopeToHDMI_Package.all;
 
 entity signedToPixel is
     port( 
-        signedIn : in  STD_LOGIC_VECTOR(15 downto 0);
+        signedIn : in  SIGNED(15 downto 0);
         pixelOut : out STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0)
     );
 end entity;
@@ -19,7 +19,7 @@ architecture behavior of signedToPixel is
 begin
 
     -- Multiply 16-bit signed input by screen HEIGHT constant (16-bit signed)
-    product <= signed(signedIn) * resize(signed(HEIGHT), 16);
+    product <= signedIn * resize(signed(HEIGHT), 16);
     
     -- Fixed-point arithmetic shift right by 16 bits (scales -32768..32767 to -HEIGHT/2..HEIGHT/2)
     divided <= shift_right(product, 16); 

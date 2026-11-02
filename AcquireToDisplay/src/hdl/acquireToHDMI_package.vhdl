@@ -96,23 +96,34 @@ component an7606 is
            an7606convst, an7606cs, an7606rd, an7606reset: in STD_LOGIC;
            an7606od: in STD_LOGIC_VECTOR(2 downto 0);
            an7606busy : out STD_LOGIC);
+         
 END component;
 
 component signedToPixel is
   PORT(
-    signedIn : in STD_LOGIC_VECTOR(15 downto 0);
-    pixelOut : out STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0)
+    signedIn : in SIGNED(15 downto 0);
+    pixelOut : out STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
   );
+END component;
+
+component signedCompare is
+  generic(N: integer := 16);
+  PORT(
+    x, y : in STD_LOGIC_VECTOR(N-1 downto 0);
+    g, l, e : out STD_LOGIC
+  );
+END component;
+
 component blk_mem_gen_0 is
   PORT (
     clka : IN STD_LOGIC;
     ena : IN STD_LOGIC;
     wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
-    addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+    addra : IN STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 DOWNTO 0);
     dina : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
     clkb : IN STD_LOGIC;
     enb : IN STD_LOGIC;
-    addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+    addrb : IN STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 DOWNTO 0);
     doutb : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
   );
 END component;

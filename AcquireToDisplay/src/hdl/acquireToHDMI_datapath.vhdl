@@ -46,34 +46,43 @@ end acquireToHDMI_datapath;
 
 architecture behavior of acquireToHDMI_datapath is
 
+    signal reset: STD_LOGIC;
     signal storeIntoBramFlag: STD_LOGIC;
     signal videoClk: STD_LOGIC;
     signal videoClk5x: STD_LOGIC;
     signal clkLocked: STD_LOGIC;
     signal pixelH: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0);
     signal pixelV: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0);
-
+    signal trigVSCR: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0);
+    
     signal hs_internal: STD_LOGIC;
     signal vs_internal: STD_LOGIC;
     signal vde_internal: STD_LOGIC;
     signal red_internal: STD_LOGIC_VECTOR(7 downto 0);
     signal green_internal: STD_LOGIC_VECTOR(7 downto 0);
     signal blue_internal: STD_LOGIC_VECTOR(7 downto 0);
-    signal ch1_internal: STD_LOGIC_VECTOR(15 downto 0);
-    signal ch2_internal: STD_LOGIC_VECTOR(15 downto 0);
+    signal ch1_internal: STD_LOGIC;
+    signal ch2_internal: STD_LOGIC;
 
+    signal wrAddr: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0);
     signal signedBRAM1Out: STD_LOGIC_VECTOR(15 downto 0);
     signal signedBRAM2Out: STD_LOGIC_VECTOR(15 downto 0);
 
+    signal ch1Signed: STD_LOGIC_VECTOR(15 downto 0);
+    signal ch2Signed: STD_LOGIC_VECTOR(15 downto 0);
+    signal addrB: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS downto 0);
     signal ch1PixelVal: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     signal ch2PixelVal: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
-    signal ch1: STD_LOGIC;
-    signal ch2: STD_LOGIC;
+    
 
     signal ch1Data16bitSignedSLV: STD_LOGIC_VECTOR(15 downto 0);
     signal ch2Data16bitSignedSLV: STD_LOGIC_VECTOR(15 downto 0);
+    signal ch1Previous: STD_LOGIC_VECTOR(15 downto 0);
+    signal ch2Previous: STD_LOGIC_VECTOR(15 downto 0);
     signal ch1GreaterThan: STD_LOGIC;
     signal ch2GreaterThan: STD_LOGIC;
+    signal ch1LessThan: STD_LOGIC;
+    signal ch2LessThan: STD_LOGIC;
 
     signal longDelayCounterOut: STD_LOGIC_VECTOR(LONG_DELAY_50Mhz_CONST_WIDTH - 1 downto 0);
 	signal shortDelayCounterOut: STD_LOGIC_VECTOR(SHORT_DELAY_50Mhz_CONST_WIDTH - 1 downto 0);	
@@ -81,16 +90,17 @@ architecture behavior of acquireToHDMI_datapath is
     signal sampleMuxOut: STD_LOGIC_VECTOR(31 downto 0);
 begin
 
+    reset <= not resetn;
 -- video section
     videoSigGen: videoSignalGenerator
         PORT MAP (
             clk => videoClk,
             resetn => resetn,
-            pixelH => pixelH,
-            pixelV => pixelV,
+            pixelHorz => pixelH,
+            pixelVert => pixelV,
             hs => hs_internal,
             vs => vs_internal,
-            vde => vde_internal,
+            de => vde_internal
         );
 
     face: scopeFace
@@ -98,16 +108,16 @@ begin
             clk => videoClk, 
             resetn => resetn,
             pixelHorz =>pixelH,
-            pixelVert pixelV,
+            pixelVert => pixelV,
             triggerVolt => trigVscr,
-            triggerTime => trigTimePixel,
+            triggerTime => triggerTimePixel,
             red => red_internal,
             green => green_internal,
             blue => blue_internal,
             ch1 => ch1_internal,
-            ch1Enb => '1';
+            ch1Enb => '1',
             ch2 => ch2_internal,
-            ch2Enb => '1',
+            ch2Enb => '1'
         );
 
     -- need to create clk and clk5x for HDMI transmitter
@@ -132,20 +142,27 @@ begin
             TMDS_DATA_P    => tmdsDataP,
             TMDS_DATA_N    => tmdsDataN
         );
-        
+
+    trigVoltToSigned: signedToPixel
+        PORT MAP (
+            signedIn => triggerVolt16bitSigned,
+            pixelOut => trigVscr
+        );
+
 --bram section
+
     addressCounter: genericCounter
-		generic Map(16)
+		generic Map(VIDEO_WIDTH_IN_BITS)
 		port Map(	
             clk => clk,
 			resetn => resetn,
-			c => cw(DATA_STORAGE_COUNTER_1_CW_BIT_1_INDEX downto DATA_STORAGE_COUNTER_1_CW_BIT_0_INDEX),
+			c => cw(DATA_STORAGE_COUNTER_1_CW_BIT_INDEX downto DATA_STORAGE_COUNTER_0_CW_BIT_INDEX),
 			q => wrAddr,
-			d => (others <= '0')
+			d => (others => '0')
     	);
 
     addressCompare: genericCompare
-        generic Map(16)
+        generic Map(VIDEO_WIDTH_IN_BITS)
         port Map(  
             x => WIDTH,
             y => wrAddr,
@@ -154,16 +171,17 @@ begin
             g => sw(FULL_SW_BIT_INDEX)
         );
 
+    addrB <= std_logic_vector(resize(unsigned(pixelH) - unsigned(L_EDGE), 10));
     ch1BRAM: blk_mem_gen_0
         port Map(
             clka => clk,
             ena => '1',
-            wea => cw(TRIG_CH1_WRITE_CW_BIT_INDEX),
+            wea => cw(TRIG_CH1_WRITE_CW_BIT_INDEX downto TRIG_CH1_WRITE_CW_BIT_INDEX),
             addra => wrAddr,
             dina => an7606data,
             clkb => videoClk,
             enb  => '1',
-            addrb => pixelH-L_EDGE,
+            addrb => addrB,
             doutb => ch1Signed
         );
 
@@ -171,58 +189,128 @@ begin
         port Map(
             clka => clk,
             ena => '1',
-            wea => cw(TRIG_CH2_WRITE_CW_BIT_INDEX),
+            wea => cw(TRIG_CH2_WRITE_CW_BIT_INDEX downto TRIG_CH2_WRITE_CW_BIT_INDEX),
             addra => wrAddr,
             dina => an7606data,
             clkb => videoClk,
             enb  => '1',
-            addrb => pixelH-L_EDGE,
+            addrb => addrB,
             doutb => ch2Signed
         );
 
-    ch1Pixel: signedToPixel:
+    ch1Pixel: signedToPixel
         port Map(
-            signedIn => ch1Signed,
+            signedIn => signed(ch1Signed),
             pixelOut => ch1PixelVal
         );
         
-    ch2Pixel: signedToPixel:
+    ch2Pixel: signedToPixel
         port Map(
-            signedIn => ch2Signed,
+            signedIn => signed(ch2Signed),
             pixelOut => ch2PixelVal
         );
     
     ch1Compare: genericCompare
         generic Map(VIDEO_WIDTH_IN_BITS)
         port Map(
-            x => ch1PixelVal
+            x => ch1PixelVal,
             y => pixelV,
             g => open,
             l => open, 
-            e => ch1,
+            e => ch1_internal
         );
         
     ch2Compare: genericCompare
         generic Map(VIDEO_WIDTH_IN_BITS)
         port Map(
-            x => ch2PixelVal
+            x => ch2PixelVal,
             y => pixelV,
             g => open,
             l => open, 
-            e => ch2
+            e => ch2_internal
         );
 
 -- CH1 Trigger Detection
-    prevReg: genericRegister
+    ch1CurrReg: genericRegister
         generic Map(16)
         port Map(
             clk => clk,
             resetn => resetn,
-            d => ch1,
-            q => ch1Data16bitSignedSLV
+            d => an7606Data,
+            q => ch1Data16bitSignedSLV,
+            load => cw(TRIG_CH1_WRITE_CW_BIT_INDEX)
         );
 
+    ch1PrevReg: genericRegister
+        generic Map(16)
+        port Map(
+            clk => clk,
+            resetn => resetn,
+            d => ch1Data16bitSignedSLV,
+            q => ch1Previous,
+            load => cw(TRIG_CH2_WRITE_CW_BIT_INDEX)
+        );
+    ch1GreaterThanCompare: signedCompare
+        generic Map(16)
+        port Map(
+            x => ch1Data16bitSignedSLV,
+            y => STD_LOGIC_VECTOR(triggerVolt16bitSigned),
+            g => ch1GreaterThan,
+            l => open,
+            e => open
+        );
+    ch1LessThanCompare: signedCompare
+        generic Map(16)
+        port Map(
+            x => ch1Previous,
+            y => STD_LOGIC_VECTOR(triggerVolt16bitSigned),
+            g => open,
+            l => ch1LessThan,
+            e => open
+        );
+    --csa for trigger detection
+    sw(CHANNEL_1_TRIG_SW_BIT_INDEX) <= ch1GreaterThan and ch1LessThan;
 
+-- CH2 Trigger Detection
+    ch2CurrReg: genericRegister
+        generic Map(16)
+        port Map(
+            clk => clk,
+            resetn => resetn,
+            d => an7606Data,
+            q => ch2Data16bitSignedSLV,
+            load => cw(TRIG_CH2_WRITE_CW_BIT_INDEX)
+        );
+
+    ch2PrevReg: genericRegister
+        generic Map(16)
+        port Map(
+            clk => clk,
+            resetn => resetn,
+            d => ch2Data16bitSignedSLV,
+            q => ch2Previous,
+            load => cw(TRIG_CH1_WRITE_CW_BIT_INDEX)
+        );
+    ch2GreaterThanCompare: signedCompare
+        generic Map(16)
+        port Map(
+            x => ch2Data16bitSignedSLV,
+            y => STD_LOGIC_VECTOR(triggerVolt16bitSigned),
+            g => ch2GreaterThan,
+            l => open,
+            e => open
+        );
+    ch2LessThanCompare: signedCompare
+        generic Map(16)
+        port Map(
+            x => ch2Previous,
+            y => STD_LOGIC_VECTOR(triggerVolt16bitSigned),
+            g => open,
+            l => ch2LessThan,
+            e => open
+        );
+    --csa for trigger detection
+    sw(CHANNEL_2_TRIG_SW_BIT_INDEX) <= ch2GreaterThan and ch2LessThan;
 
 
     -- Simple SR Latch to assist FSM
@@ -254,7 +342,7 @@ begin
 		port Map(	
             clk => clk,
 			resetn => resetn,
-			c => cw(LONG_COUNT_CW_BIT_1_INDEX downto LONG_COUNT_CW_BIT_0_INDEX),
+			c => cw(LONG_DELAY_COUNTER_1_CW_BIT_INDEX downto LONG_DELAY_COUNTER_0_CW_BIT_INDEX),
 			q => longDelayCounterOut,
 			d => x"000000"
 	    );
@@ -265,7 +353,7 @@ begin
 		port Map(	
             clk => clk,
 			resetn => resetn,
-			c => cw(SHORT_COUNT_CW_BIT_1_INDEX downto SHORT_COUNT_CW_BIT_0_INDEX),
+			c => cw(SHORT_DELAY_COUNTER_1_CW_BIT_INDEX downto SHORT_DELAY_COUNTER_0_CW_BIT_INDEX),
 			q => shortDelayCounterOut,
 			d => x"00"
 	    );
@@ -297,7 +385,7 @@ begin
         port Map(
             clk => clk,
             resetn => resetn,
-            c => cw(SAMPLING_COUNTER_1_CW_BIT_INDEX downto SAMPLING_COUNTER_0_CW_BIT_INDEX),
+            c => cw(SAMPLING_COUNTER_CW_1_BIT_INDEX downto SAMPLING_COUNTER_CW_0_BIT_INDEX),
             q => sampleCounterOut,
             d => x"00000000"
         );
