@@ -25,7 +25,7 @@ begin
     divided <= shift_right(product, 16); 
     
     -- Center the waveform vertically on the display (HEIGHT / 2)
-   offset <= resize(shift_right(signed(HEIGHT), 1), 16);
+   offset <= resize(shift_right(signed(HEIGHT), 1) + T_EDGE, 16);
     
     -- Calculate final vertical pixel coordinate
     pixel <= divided(15 downto 0) + offset;

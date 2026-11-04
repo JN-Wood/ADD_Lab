@@ -33,6 +33,8 @@ architecture behavior of acquireToHDMI is
     signal cw: STD_LOGIC_VECTOR(CW_WIDTH -1 downto 0);
     signal sw: STD_LOGIC_VECTOR(SW_WIDTH -1 downto 0);
     signal forcedMode: STD_LOGIC;
+    signal buttonActivity, prevButton, currButton: STD_LOGIC_VECTOR(2 downto 0);
+    
         	
 begin
 
@@ -45,14 +47,45 @@ begin
     ------------------------------------------------------------------------------
     -- Button Process
     ------------------------------------------------------------------------------
+    --btn(0) is single
+    --btn(1) is forced mode select 
+    process(clk)
+    begin
+        if rising_edge(clk) then
+            if resetn = '0' then
+               sw(FORCED_MODE_SW_BIT_INDEX downto SINGLE_SW_BIT_INDEX) <= '0';
+               prevBtn <= '0';
+            else
+               currBtn <= btn;
+               prevBtn <= currBtn;
+            end if;
+        end if;
+        buttonActivity <= currBtn and not prevBtn;
+        forcedMode <= buttonActivity(1) xor forcedMode; -- toggle forced mode on button press
+    end process;
 
     
-    
-    sw(SINGLE_FORCED_TRIGGER_SW_BIT_INDEX) <= buttonActivity(0);
-    triggerCh2 <= sw(CH2_TRIGGER_SW_BIT_INDEX);
+    sw(SINGLE_SW_BIT_INDEX) <= buttonActivity(0);
+    sw(FORCED_MODE_SW_BIT_INDEX) <= forcedMode;
+    triggerCh1 <= sw(CHANNEL_1_TRIG_SW_BIT_INDEX);
+    triggerCh2 <= sw(CHANNEL_2_TRIG_SW_BIT_INDEX);
 
  	datapath_inst: acquireToHDMI_datapath 
+        port Map(
+            clk => clk,
+            resetn => resetn,
+            cw => cw(CW_WIDTH - 1 downto 0),
+            sw => sw(DATAPATH_SW_WIDTH - 1 downto 0),
+            an7606Data => an7606data,
+            triggerVolt16bitSigned => (others => '0'), -- not used in this top level, can be connected to a signal if needed
+            triggerTimePixel => T_EDGE+ shift_right(unsigned(HEIGHT), 1), 
             ch1Data16bitSLV => open,
+            ch2Data16bitSLV => open,
+            tmdsDataP => tmdsDataP,
+            tmdsDataN => tmdsDataN,
+            tmdsClkP => tmdsClkP,
+            tmdsClkN => tmdsClkN,
+            hdmiOen => hdmiOen
 	);
                 
 	control_inst: acquireToHDMI_fsm 
