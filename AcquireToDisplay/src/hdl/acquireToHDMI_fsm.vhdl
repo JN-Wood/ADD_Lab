@@ -33,7 +33,7 @@ architecture Behavioral of acquireToHDMI_fsm is
 
 	signal state: state_type;	-- define the state_type in your package file	
 	signal SHORT_DELAY_DONE_SW,: STD_LOGIC; 
-    	signal FORCED_MODE_SW, STORE_INTO_BRAM_SW, CH1_TRIGGER_SW: STD_LOGIC;
+    signal FORCED_MODE_SW, STORE_INTO_BRAM_SW, CH1_TRIGGER_SW: STD_LOGIC; -- do we need ch 2 trigger at all? were always triggering on channel 1 yes?
 begin
 
     SHORT_DELAY_DONE_SW <= sw(SHORT_DELAY_DONE_SW_BIT_INDEX);
@@ -50,12 +50,105 @@ begin
 					when RESET_STATE =>
 						  state <= LONG_DELAY_STATE;
 					when LONG_DELAY_STATE =>
-						if (LONG_DELAY_DONE = '1') then
-							state <= RESET_AD7606_STATE;
+						if (sw(LONG_DELAY_DONE_SW_BIT_INDEX) = '1') then
+							state <= RESET_AD7606_STATE; --TODO: add long delay counter
 						else
 							state <= LONG_DELAY_STATE;
 						end if;
-						  
+					when RESET_AD7606_STATE =>  -- do we break off into forced and trigger mode for this part? or do we just set forced to always be 1?
+						if (sw(SHORT_DELAY_DONE_SW_BIT_INDEX) = '1') then
+								state <= WAIT_FORCED_STATE;
+						else
+							state <= RESET_AD7606_STATE;
+						end if;
+					when WAIT_FORCED_STATE =>
+						if (sw(SINGLE_SW_BIT_INDEX) = '1') then
+
+							state <= SET_STORE_STATE -- b ram full resets this to clear
+						else
+							state <= WAIT_FORCED_STATE;
+						end if;
+					when SET_STORE_STATE => --controlls write enable on Bram 1 and bram 2?
+							state <= BEGIN_CONVERSION_STATE;
+					when BEGIN_CONVERSION_START
+							state <= ASSERT_CONVST_STATE; 
+					when ASSERT_CONVST_STATE =>
+						if(sw(SHORT_DELAY_DONE_SW_BIT_INDEX) = '1') then
+							state <= BUSY_0_STATE;
+						else
+							state <= ASSERT_CONVST_STATE;
+						end if;
+					when BUSY_0_STATE =>
+						if(sw(BUSY_SW_BIT_INDEX) = '1') then -- this is from aquire, whats our equivilent here? 
+							state <= BUSY_1_STATE;
+						else
+							state <= BUSY_0_STATE;
+						end if;
+					when BUSY_1_STATE =>
+						if(sw(BUSY_SW_BIT_INDEX) = '0') then -- this is from aquire, whats our equivilent here? 
+							state <= WAIT_VALID_STATE;
+						else
+							state <= BUSY_1_STATE;
+						end if;
+					when READ_CH1_LOW_STATE 
+						if(sw(SHORT_DELAY_DONE_SW_BIT_INDEX) = '1') then
+
+							if (sw(STORE_SW_BIT_INDEX) = '1') then 
+									state =>  WRITE_CH1_BRAM_STATE; -- i dont think i understand what either of these states convey
+							else 
+								state =>WRITE_CH1_TRIGGER_STATE;
+							end if;	
+						else state => READ_CH1_LOW_STATE;
+						end if;
+					-- place holder until questions answered 
+					when write_CH1_BRAM_STATE =>
+						state <= READ_CH1_HIGH_STATE;
+					when WRITE_CH1_TRIGGER_STATE =>
+						state <= READ_CH1_HIGH_STATE;
+					when READ_CH1_HIGH_STATE =>
+						if (sw(STORE_SW_BIT_INDEX) = '1') then
+							state <= RESET_SHORT_STATE;
+						else 
+							state <= READ_CH1_HIGH_STATE;
+						end if;
+					when RESET_SHORT_STATE => 
+						state <= READ_CH2_LOW_STATE;
+					when READ_CH2_LOW_STATE =>
+						if (sw(SHORT_DELAY_DONE_SW_BIT_INDEX) = '1') then
+							if (sw(STORE_SW_BIT_INDEX) = '1') then 
+								state <= WRITE_CH2_BRAM_STATE;
+							else
+								state <= WRITE_CH2_TRIGGER_STATE; 
+							end if;
+						else
+							state <= READ_CH2_LOW_STATE;
+						end if;
+					when READ_CH2_LOW_STATE =>
+							state <= WAIT_INTERVAL_STATE;
+					when WAIT_INTERVAL_STATE =>
+						if (sw(SAMPLE_SW_BIT_INDEX)) = 1 then
+							if (sw(FULL_SW_BIT_INDEX) = '1') then
+								state <= BRAM_FULL_STATE;
+							else
+								if (sw(FORCED_MODE_SW_BIT_INDEX) = '1') then
+									state <= BEGIN_CONVERSION_STATE;
+								else 
+									if sw(CHANNEL_1_TRIG_SW_BIT_INDEX) = '1' and sw(STORE_SW_BIT_INDEX) = '1' then
+										state <= SET_STORE_STATE;
+									else 
+										state <= BEGIN_CONVERSION_STATE;
+									end if
+								end if;
+							end if;
+						else 
+							state <= WAIT_INTERVAL_STATE;
+						end if;
+					when BRAM_FULL_STATE =>
+						if (sw(FORCED_MODE_SW_BIT_INDEX) = '1') then
+							state <= WAIT_FORCED_STATE;
+						else
+							state <= CLEAR_STORE_STATE;
+						end if; 
 				end case;
 			end if;
 		end if;
@@ -72,7 +165,7 @@ begin
 			when RESET_AD7606_STATE  =>  cw <= '0'&'0'&'0'&'0'&'0'&'0'&'0'&'0'&'1'&'1'&'1'&'1'&"11"&"11"&"00"&"00"&"10";
 			when WAIT_FORCED_STATE  =>  cw <= '0'&'0'&'0'&'0'&'0'&'0'&'0'&'0'&'1'&'1'&'1'&'0'&"11"&"11"&"00"&"00"&"11";
 			when SET_STORE_STATE  =>  cw <= '0'&'1'&'0'&'0'&'0'&'0'&'0'&'0'&'1'&'1'&'1'&'0'&"11"&"11"&"00"&"00"&"11";
-			when CLEAR_STORE_STATE  =>  cw <= '1'&'0'&'0'&'0'&'0'&'0'&'0'&'0'&'1'&'1'&'1'&'0'&"00"&"11"&"00"&"00"&"11";
+			when CLEAR_STORE_STATE  =>  cw <= '1'&'0'&'0'&'0'&'0'&'0'&'0'&'0'&'1'&'1'&'1'&'0'&"00"&"11"&"00"&"00"&"11"; -- when do we do this? after the bram is full? 
 			when BEGIN_CONVERSION_STATE  =>  cw <= '0'&'0'&'0'&'0'&'1'&'1'&'0'&'0'&'1'&'1'&'1'&'0'&"00"&"11"&"00"&"00"&"11";
 			when ASSERT_CONVST_STATE  =>  cw <= '0'&'0'&'0'&'0'&'1'&'0'&'0'&'0'&'0'&'1'&'1'&'0'&"00"&"10"&"00"&"00"&"10";
 			when BUSY_0_STATE  =>  cw <= '0'&'0'&'0'&'0'&'1'&'0'&'0'&'0'&'1'&'1'&'1'&'0'&"00"&"10"&"00"&"00"&"11";
