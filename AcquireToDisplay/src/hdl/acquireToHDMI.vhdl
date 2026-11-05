@@ -2,8 +2,9 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use IEEE.NUMERIC_STD.ALL;
 use work.acquireToHDMI_package.all;					-- include your library here with added components ac97, ac97cmd
-use work.hdmi_package.all;
+use work.scopeToHDMI_Package.all;					-- include your library here with added components ac97, ac97cmd
 use work.basicBuildingBlocks_package.all;					-- include your library here with added components ac97, ac97cmd
 
 
@@ -34,7 +35,7 @@ architecture behavior of acquireToHDMI is
     signal sw: STD_LOGIC_VECTOR(SW_WIDTH -1 downto 0);
     signal forcedMode: STD_LOGIC;
     signal buttonActivity, prevBtn, currBtn: STD_LOGIC_VECTOR(2 downto 0);
-    
+    signal triggerPix: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0);
         	
 begin
 
@@ -69,7 +70,8 @@ begin
     sw(FORCED_MODE_SW_BIT_INDEX) <= forcedMode;
     triggerCh1 <= sw(CHANNEL_1_TRIG_SW_BIT_INDEX);
     triggerCh2 <= sw(CHANNEL_2_TRIG_SW_BIT_INDEX);
-
+    
+    triggerPix <= T_EDGE + std_logic_vector(shift_right(unsigned(HEIGHT), 1));
  	datapath_inst: acquireToHDMI_datapath 
         port Map(
             clk => clk,
@@ -78,7 +80,7 @@ begin
             sw => sw(DATAPATH_SW_WIDTH - 1 downto 0),
             an7606Data => an7606data,
             triggerVolt16bitSigned => (others => '0'), -- not used in this top level, can be connected to a signal if needed
-            triggerTimePixel => T_EDGE+ shift_right(unsigned(HEIGHT), 1), 
+            triggerTimePixel => triggerPix, 
             ch1Data16bitSLV => open,
             ch2Data16bitSLV => open,
             tmdsDataP => tmdsDataP,

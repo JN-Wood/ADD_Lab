@@ -115,15 +115,15 @@ component an7606 is
            an7606data: out STD_LOGIC_VECTOR(15 downto 0);
            an7606convst, an7606cs, an7606rd, an7606reset: in STD_LOGIC;
            an7606od: in STD_LOGIC_VECTOR(2 downto 0);
-           an7606busy : out STD_LOGIC);
+           an7606busy : out STD_LOGIC
+           );
          
 END component;
 
 component signedToPixel is
   PORT(
     signedIn : in SIGNED(15 downto 0);
-    pixelOut : out STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
-  );
+    pixelOut : out STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0));
 END component;
 
 component signedCompare is
