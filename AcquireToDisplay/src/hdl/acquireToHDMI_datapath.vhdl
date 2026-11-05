@@ -23,6 +23,7 @@ use IEEE.NUMERIC_STD.ALL;
 use work.acquireToHDMI_Package.all;			
 use work.basicBuildingBlocks_package.all;		
 use work.scopeToHDMI_Package.all;
+use IEEE.std_logic_unsigned.all;
 
 entity acquireToHDMI_datapath is
     PORT ( clk : in  STD_LOGIC;
@@ -67,7 +68,7 @@ architecture behavior of acquireToHDMI_datapath is
 
     signal ch1Signed: STD_LOGIC_VECTOR(15 downto 0);
     signal ch2Signed: STD_LOGIC_VECTOR(15 downto 0);
-    signal addrB: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS downto 0);
+    signal addrB: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0);
     signal ch1PixelVal: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     signal ch2PixelVal: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     
@@ -169,7 +170,7 @@ begin
             g => sw(FULL_SW_BIT_INDEX)
         );
 
-    addrB <= std_logic_vector(resize(unsigned(pixelH) - unsigned(L_EDGE), 10));
+    addrB <= (pixelH - L_EDGE);
     ch1BRAM: blk_mem_gen_0
         port Map(
             clka => clk,
@@ -187,7 +188,7 @@ begin
         port Map(
             clka => clk,
             ena => '1',
-            wea => cw(DATA_STORAGE_CH2_WRITE_CW_BIT_INDEX downto DATA_STORAGE_CH1_WRITE_CW_BIT_INDEX),
+            wea => cw(DATA_STORAGE_CH2_WRITE_CW_BIT_INDEX downto DATA_STORAGE_CH2_WRITE_CW_BIT_INDEX),
             addra => wrAddr,
             dina => an7606data,
             clkb => videoClk,

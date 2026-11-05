@@ -81,8 +81,6 @@ CONSTANT LOWEST_RATE    : STD_LOGIC_VECTOR(31 downto 0) := STD_LOGIC_VECTOR(to_u
 CONSTANT LOW_RATE       : STD_LOGIC_VECTOR(31 downto 0) := STD_LOGIC_VECTOR(to_unsigned(2400, 32));
 
 CONSTANT DATA_WIDTH : NATURAL := 16;
-component acquireToHDMI_fsm is
-end component;
 
 component acquireToHDMI_datapath is
   PORT ( clk : in  STD_LOGIC;
@@ -103,11 +101,32 @@ component acquireToHDMI_datapath is
 		   );
 end component;
 
+component acquireToHDMI_fsm is
+    PORT (  clk : in  STD_LOGIC;
+            resetn : in  STD_LOGIC;
+            sw: in STD_LOGIC_VECTOR(SW_WIDTH - 1 downto 0);
+            cw: out STD_LOGIC_VECTOR (CW_WIDTH - 1 downto 0));
+end component;
+
 component acquireToHDMI is
-  PORT (  clk : in  STD_LOGIC;
-          resetn : in  STD_LOGIC;
-          sw: in STD_LOGIC_VECTOR(SW_WIDTH - 1 downto 0);
-          cw: out STD_LOGIC_VECTOR (CW_WIDTH - 1 downto 0));
+   PORT ( clk : in  STD_LOGIC;
+           resetn : in  STD_LOGIC;
+		   btn: in	STD_LOGIC_VECTOR(2 downto 0);
+		   triggerCh1, triggerCh2: out STD_LOGIC;		   
+		   conversionPlusReadoutTime: out STD_LOGIC;
+		   sampleTimerRollover: out STD_LOGIC;
+		   
+		   an7606data: in STD_LOGIC_VECTOR(15 downto 0);
+		   an7606convst, an7606cs, an7606rd, an7606reset: out STD_LOGIC;
+		   an7606od: out STD_LOGIC_VECTOR(2 downto 0);
+		   an7606busy : in STD_LOGIC;
+		   
+		   tmdsDataP : out  STD_LOGIC_VECTOR (2 downto 0);
+           tmdsDataN : out  STD_LOGIC_VECTOR (2 downto 0);
+           tmdsClkP : out STD_LOGIC;
+           tmdsClkN : out STD_LOGIC;
+           hdmiOen:    out STD_LOGIC		   
+		   );	
 end component;	
 
 component an7606 is

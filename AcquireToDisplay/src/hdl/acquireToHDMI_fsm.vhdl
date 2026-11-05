@@ -70,6 +70,8 @@ begin
 						end if;
 					when SET_STORE_STATE => --controlls write enable on Bram 1 and bram 2?
 							state <= BEGIN_CONVERSION_STATE;
+				    when CLEAR_STORE_STATE =>
+                        state <= BEGIN_CONVERSION_STATE;
 					when BEGIN_CONVERSION_STATE => 
 							state <= ASSERT_CONVST_STATE; 
 					when ASSERT_CONVST_STATE =>
@@ -123,8 +125,10 @@ begin
 						else
 							state <= READ_CH2_LOW_STATE;
 						end if;
-					when READ_CH2_LOW_STATE =>
-							state <= WAIT_INTERVAL_STATE;
+					when WRITE_CH2_BRAM_STATE =>
+					   state <= WAIT_INTERVAL_STATE;
+					when WRITE_CH2_TRIGGER_STATE =>
+					   state <= WAIT_INTERVAL_STATE;
 					when WAIT_INTERVAL_STATE =>
 						if (sw(SAMPLE_SW_BIT_INDEX) = '1') then
 							if (sw(FULL_SW_BIT_INDEX) = '1') then
