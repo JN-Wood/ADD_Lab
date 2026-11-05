@@ -65,8 +65,6 @@ architecture behavior of acquireToHDMI_datapath is
     signal ch2_internal: STD_LOGIC;
 
     signal wrAddr: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0);
-    signal signedBRAM1Out: STD_LOGIC_VECTOR(15 downto 0);
-    signal signedBRAM2Out: STD_LOGIC_VECTOR(15 downto 0);
 
     signal ch1Signed: STD_LOGIC_VECTOR(15 downto 0);
     signal ch2Signed: STD_LOGIC_VECTOR(15 downto 0);
@@ -74,11 +72,10 @@ architecture behavior of acquireToHDMI_datapath is
     signal ch1PixelVal: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     signal ch2PixelVal: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     
-
-    signal ch1Data16bitSignedSLV: STD_LOGIC_VECTOR(15 downto 0);
-    signal ch2Data16bitSignedSLV: STD_LOGIC_VECTOR(15 downto 0);
-    signal ch1Previous: STD_LOGIC_VECTOR(15 downto 0);
-    signal ch2Previous: STD_LOGIC_VECTOR(15 downto 0);
+    signal ch1Data16bitSignedSLV: STD_LOGIC_VECTOR(15 downto 0); --Current for trigger detection
+    signal ch2Data16bitSignedSLV: STD_LOGIC_VECTOR(15 downto 0); -- Current for trigger detection
+    signal ch1Previous: STD_LOGIC_VECTOR(15 downto 0);           -- Previous for trigger detection
+    signal ch2Previous: STD_LOGIC_VECTOR(15 downto 0);           -- Previous for trigger detection
     signal ch1GreaterThan: STD_LOGIC;
     signal ch2GreaterThan: STD_LOGIC;
     signal ch1LessThan: STD_LOGIC;
@@ -91,6 +88,9 @@ architecture behavior of acquireToHDMI_datapath is
 begin
 
     reset <= not resetn;
+    hdmiOen <= '0'; -- Always enable HDMI output
+    ch1Data16BitSLV <= ch1Data16bitSignedSLV;
+    ch2Data16BitSLV <= ch2Data16bitSignedSLV;
 -- video section
     videoSigGen: videoSignalGenerator
         PORT MAP (
@@ -120,7 +120,6 @@ begin
             ch2Enb => '1'
         );
 
-    -- need to create clk and clk5x for HDMI transmitter
     hdmi_inst: hdmi_tx_0
         PORT MAP (
             pix_clk        => videoClk,	
@@ -248,7 +247,7 @@ begin
             resetn => resetn,
             d => ch1Data16bitSignedSLV,
             q => ch1Previous,
-            load => cw(TRIG_CH2_WRITE_CW_BIT_INDEX)
+            load => cw(TRIG_CH1_WRITE_CW_BIT_INDEX)
         );
     ch1GreaterThanCompare: signedCompare
         generic Map(16)
@@ -289,7 +288,7 @@ begin
             resetn => resetn,
             d => ch2Data16bitSignedSLV,
             q => ch2Previous,
-            load => cw(TRIG_CH1_WRITE_CW_BIT_INDEX)
+            load => cw(TRIG_CH2_WRITE_CW_BIT_INDEX)
         );
     ch2GreaterThanCompare: signedCompare
         generic Map(16)
@@ -334,7 +333,8 @@ begin
             clk_in1 => clk,
             clk_out1 => videoClk,
             resetn => resetn,
-            clk_out2 => videoClk5x);
+            clk_out2 => videoClk5x,
+            locked => clkLocked);
 
     --Long delay counter instantiation
 	longDelayCounter: genericCounter
@@ -393,10 +393,10 @@ begin
     sampleMux: genericMux4x1
         generic Map(32)
         port Map(
-            y3 => HIGHEST_RATE,
-            y2 => HIGH_RATE,
-            y1 => LOW_RATE,
-            y0 => LOWEST_RATE,
+            y3 => LOWEST_RATE,
+            y2 => LOW_RATE,
+            y1 => HIGH_RATE,
+            y0 => HIGHEST_RATE,
             s => cw(SAMPLING_RATE_SELECT_1_CW_BIT_INDEX downto SAMPLING_RATE_SELECT_0_CW_BIT_INDEX),
             f => sampleMuxOut
         );
