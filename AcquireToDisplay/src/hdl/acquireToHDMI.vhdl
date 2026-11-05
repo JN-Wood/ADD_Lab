@@ -33,7 +33,7 @@ architecture behavior of acquireToHDMI is
     signal cw: STD_LOGIC_VECTOR(CW_WIDTH -1 downto 0);
     signal sw: STD_LOGIC_VECTOR(SW_WIDTH -1 downto 0);
     signal forcedMode: STD_LOGIC;
-    signal buttonActivity, prevButton, currButton: STD_LOGIC_VECTOR(2 downto 0);
+    signal buttonActivity, prevBtn, currBtn: STD_LOGIC_VECTOR(2 downto 0);
     
         	
 begin
@@ -53,8 +53,8 @@ begin
     begin
         if rising_edge(clk) then
             if resetn = '0' then
-               sw(FORCED_MODE_SW_BIT_INDEX downto SINGLE_SW_BIT_INDEX) <= '0';
-               prevBtn <= '0';
+               sw(FORCED_MODE_SW_BIT_INDEX downto SINGLE_SW_BIT_INDEX) <= "00";
+               prevBtn <= "000";
             else
                currBtn <= btn;
                prevBtn <= currBtn;

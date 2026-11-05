@@ -32,7 +32,7 @@ end acquireToHDMI_fsm;
 architecture Behavioral of acquireToHDMI_fsm is
 
 	signal state: state_type;	-- define the state_type in your package file	
-	signal SHORT_DELAY_DONE_SW,: STD_LOGIC; 
+	signal SHORT_DELAY_DONE_SW: STD_LOGIC; 
     signal FORCED_MODE_SW, STORE_INTO_BRAM_SW, CH1_TRIGGER_SW: STD_LOGIC; -- do we need ch 2 trigger at all? were always triggering on channel 1 yes?
 begin
 
@@ -64,13 +64,13 @@ begin
 					when WAIT_FORCED_STATE =>
 						if (sw(SINGLE_SW_BIT_INDEX) = '1') then
 
-							state <= SET_STORE_STATE -- b ram full resets this to clear
+							state <= SET_STORE_STATE; -- b ram full resets this to clear
 						else
 							state <= WAIT_FORCED_STATE;
 						end if;
 					when SET_STORE_STATE => --controlls write enable on Bram 1 and bram 2?
 							state <= BEGIN_CONVERSION_STATE;
-					when BEGIN_CONVERSION_START
+					when BEGIN_CONVERSION_STATE => 
 							state <= ASSERT_CONVST_STATE; 
 					when ASSERT_CONVST_STATE =>
 						if(sw(SHORT_DELAY_DONE_SW_BIT_INDEX) = '1') then
@@ -86,19 +86,19 @@ begin
 						end if;
 					when BUSY_1_STATE =>
 						if(sw(BUSY_SW_BIT_INDEX) = '0') then -- this is from aquire, whats our equivilent here? 
-							state <= WAIT_VALID_STATE;
+							state <= READ_CH1_LOW_STATE;
 						else
 							state <= BUSY_1_STATE;
 						end if;
-					when READ_CH1_LOW_STATE 
+					when READ_CH1_LOW_STATE =>
 						if(sw(SHORT_DELAY_DONE_SW_BIT_INDEX) = '1') then
 
 							if (sw(STORE_SW_BIT_INDEX) = '1') then 
-									state =>  WRITE_CH1_BRAM_STATE; -- i dont think i understand what either of these states convey
+								state <= WRITE_CH1_BRAM_STATE; -- i dont think i understand what either of these states convey
 							else 
-								state =>WRITE_CH1_TRIGGER_STATE;
+								state <= WRITE_CH1_TRIGGER_STATE;
 							end if;	
-						else state => READ_CH1_LOW_STATE;
+						else state <= READ_CH1_LOW_STATE;
 						end if;
 					-- place holder until questions answered 
 					when write_CH1_BRAM_STATE =>
@@ -126,7 +126,7 @@ begin
 					when READ_CH2_LOW_STATE =>
 							state <= WAIT_INTERVAL_STATE;
 					when WAIT_INTERVAL_STATE =>
-						if (sw(SAMPLE_SW_BIT_INDEX)) = 1 then
+						if (sw(SAMPLE_SW_BIT_INDEX) = '1') then
 							if (sw(FULL_SW_BIT_INDEX) = '1') then
 								state <= BRAM_FULL_STATE;
 							else
@@ -137,7 +137,7 @@ begin
 										state <= SET_STORE_STATE;
 									else 
 										state <= BEGIN_CONVERSION_STATE;
-									end if
+									end if;
 								end if;
 							end if;
 						else 

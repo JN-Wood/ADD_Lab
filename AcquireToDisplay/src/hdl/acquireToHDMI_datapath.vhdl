@@ -20,7 +20,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
-
 use work.acquireToHDMI_Package.all;			
 use work.basicBuildingBlocks_package.all;		
 use work.scopeToHDMI_Package.all;
@@ -175,7 +174,7 @@ begin
         port Map(
             clka => clk,
             ena => '1',
-            wea => cw(TRIG_CH1_WRITE_CW_BIT_INDEX downto TRIG_CH1_WRITE_CW_BIT_INDEX),
+            wea => cw(DATA_STORAGE_CH1_WRITE_CW_BIT_INDEX downto DATA_STORAGE_CH1_WRITE_CW_BIT_INDEX),
             addra => wrAddr,
             dina => an7606data,
             clkb => videoClk,
@@ -188,7 +187,7 @@ begin
         port Map(
             clka => clk,
             ena => '1',
-            wea => cw(TRIG_CH2_WRITE_CW_BIT_INDEX downto TRIG_CH2_WRITE_CW_BIT_INDEX),
+            wea => cw(DATA_STORAGE_CH2_WRITE_CW_BIT_INDEX downto DATA_STORAGE_CH1_WRITE_CW_BIT_INDEX),
             addra => wrAddr,
             dina => an7606data,
             clkb => videoClk,
@@ -406,9 +405,9 @@ begin
         port Map(
             x => sampleCounterOut,
             y => sampleMuxOut,
-            g => open,
+            e => open,
             l => open,
-            e => sw(SAMPLE_SW_BIT_INDEX)
+            g => sw(SAMPLE_SW_BIT_INDEX)
         );
 
 end behavior;
