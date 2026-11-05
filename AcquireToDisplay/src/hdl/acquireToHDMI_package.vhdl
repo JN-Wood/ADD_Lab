@@ -85,9 +85,29 @@ component acquireToHDMI_fsm is
 end component;
 
 component acquireToHDMI_datapath is
+  PORT ( clk : in  STD_LOGIC;
+        resetn : in  STD_LOGIC;
+		    cw : in STD_LOGIC_VECTOR(CW_WIDTH -1 downto 0);
+		    sw : out STD_LOGIC_VECTOR(DATAPATH_SW_WIDTH - 1 downto 0);
+		    an7606data: in STD_LOGIC_VECTOR(15 downto 0);
+
+        triggerVolt16bitSigned: in SIGNED(15 downto 0);
+		    triggerTimePixel: in STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0);
+		    ch1Data16bitSLV, ch2Data16bitSLV: out STD_LOGIC_VECTOR(15 downto 0);
+		   
+		    tmdsDataP : out  STD_LOGIC_VECTOR (2 downto 0);
+        tmdsDataN : out  STD_LOGIC_VECTOR (2 downto 0);
+        tmdsClkP : out STD_LOGIC;
+        tmdsClkN : out STD_LOGIC;
+        hdmiOen:    out STD_LOGIC
+		   );
 end component;
 
 component acquireToHDMI is
+  PORT (  clk : in  STD_LOGIC;
+          resetn : in  STD_LOGIC;
+          sw: in STD_LOGIC_VECTOR(SW_WIDTH - 1 downto 0);
+          cw: out STD_LOGIC_VECTOR (CW_WIDTH - 1 downto 0));
 end component;	
 
 component an7606 is
