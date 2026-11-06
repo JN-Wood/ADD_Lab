@@ -47,8 +47,8 @@ begin
     an7606reset <= cw(RESET_AD7606_CW_BIT_INDEX);
     an7606cs <= cw(CS_CW_BIT_INDEX);
     an7606rd <= cw(RD_CW_BIT_INDEX);
-    triggerCh1 <= cw(TRIGGER_CH1_CW_BIT_INDEX);
-    triggerCh2 <= cw(TRIGGER_CH2_CW_BIT_INDEX); 
+    triggerCh1 <= sw(CHANNEL_1_TRIG_SW_BIT_INDEX);
+    triggerCh2 <= sw(CHANNEL_2_TRIG_SW_BIT_INDEX); 
 
     ------------------------------------------------------------------------------
     -- Button Process
