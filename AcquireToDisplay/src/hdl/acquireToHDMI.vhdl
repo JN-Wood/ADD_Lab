@@ -58,15 +58,18 @@ begin
     begin
         if rising_edge(clk) then
             if resetn = '0' then
-               sw(FORCED_MODE_SW_BIT_INDEX downto SINGLE_SW_BIT_INDEX) <= "00";
-               prevBtn <= "000";
+               forcedMode  <= '1';
+               buttonActivity <= "000";
+               CurrBtn <= "111";
+               prevBtn <= "111";
             else
                currBtn <= btn;
                prevBtn <= currBtn;
+               buttonActivity <= currBtn and not prevBtn;
+               forcedMode <= buttonActivity(1) xor forcedMode; -- toggle forced mode on button press
             end if;
         end if;
-        buttonActivity <= currBtn and not prevBtn;
-        forcedMode <= buttonActivity(1) xor forcedMode; -- toggle forced mode on button press
+        
     end process;
 
     
