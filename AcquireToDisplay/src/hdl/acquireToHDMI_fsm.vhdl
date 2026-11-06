@@ -126,8 +126,10 @@ begin
 							state <= READ_CH2_LOW_STATE;
 						end if;
 					when WRITE_CH2_BRAM_STATE =>
-					   state <= WAIT_INTERVAL_STATE;
+					   state <= READ_CH2_HIGH_STATE;
 					when WRITE_CH2_TRIGGER_STATE =>
+					   state <= READ_CH2_HIGH_STATE;
+					when READ_CH2_HIGH_STATE =>
 					   state <= WAIT_INTERVAL_STATE;
 					when WAIT_INTERVAL_STATE =>
 						if (sw(SAMPLE_SW_BIT_INDEX) = '1') then

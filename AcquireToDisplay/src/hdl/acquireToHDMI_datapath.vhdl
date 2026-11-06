@@ -88,7 +88,7 @@ architecture behavior of acquireToHDMI_datapath is
 begin
 
     reset <= not resetn;
-    hdmiOen <= '0'; -- Always enable HDMI output
+    hdmiOen <= '1'; -- Always enable HDMI output
     ch1Data16BitSLV <= ch1Data16bitSignedSLV;
     ch2Data16BitSLV <= ch2Data16bitSignedSLV;
 -- video section
