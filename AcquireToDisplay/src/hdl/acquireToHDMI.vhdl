@@ -44,6 +44,11 @@ begin
     
     an7606convst <= cw(CONVST_CW_BIT_INDEX);    
     an7606od <= "000"; 
+    an7606reset <= cw(RESET_AD7606_CW_BIT_INDEX);
+    an7606cs <= cw(CS_CW_BIT_INDEX);
+    an7606rd <= cw(RD_CW_BIT_INDEX);
+    triggerCh1 <= cw(TRIGGER_CH1_CW_BIT_INDEX);
+    triggerCh2 <= cw(TRIGGER_CH2_CW_BIT_INDEX); 
 
     ------------------------------------------------------------------------------
     -- Button Process

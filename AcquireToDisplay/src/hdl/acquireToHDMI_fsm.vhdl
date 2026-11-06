@@ -108,7 +108,7 @@ begin
 					when WRITE_CH1_TRIGGER_STATE =>
 						state <= READ_CH1_HIGH_STATE;
 					when READ_CH1_HIGH_STATE =>
-						if (sw(STORE_SW_BIT_INDEX) = '1') then
+						if (sw(SHORT_DELAY_DONE_SW_BIT_INDEX) = '1') then
 							state <= RESET_SHORT_STATE;
 						else 
 							state <= READ_CH1_HIGH_STATE;
@@ -130,7 +130,7 @@ begin
 					when WRITE_CH2_TRIGGER_STATE =>
 					   state <= READ_CH2_HIGH_STATE;
 					when READ_CH2_HIGH_STATE =>
-					   state <= WAIT_INTERVAL_STATE;
+						state <= WAIT_INTERVAL_STATE;
 					when WAIT_INTERVAL_STATE =>
 						if (sw(SAMPLE_SW_BIT_INDEX) = '1') then
 							if (sw(FULL_SW_BIT_INDEX) = '1') then
@@ -139,7 +139,7 @@ begin
 								if (sw(FORCED_MODE_SW_BIT_INDEX) = '1') then
 									state <= BEGIN_CONVERSION_STATE;
 								else 
-									if sw(CHANNEL_1_TRIG_SW_BIT_INDEX) = '1' and sw(STORE_SW_BIT_INDEX) = '1' then
+									if sw(CHANNEL_1_TRIG_SW_BIT_INDEX) = '1' and sw(STORE_SW_BIT_INDEX) = '0' then
 										state <= SET_STORE_STATE;
 									else 
 										state <= BEGIN_CONVERSION_STATE;
