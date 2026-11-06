@@ -81,7 +81,7 @@ BEGIN
     button_process :process
     begin
         
-        btn_t <= "000"; 
+        btn_t <= "111"; 
         wait until (resetn_t = '1');
         wait for clk_period;
         
@@ -93,10 +93,10 @@ BEGIN
         wait for 100ns;
 
         -- Leave this line in regardless of the mode
-        btn_t <= "001";
+        btn_t <= "110";
         
         wait for 4*clk_period;
-        btn_t <= "000";
+        btn_t <= "111";
         wait;
     end process;   
 

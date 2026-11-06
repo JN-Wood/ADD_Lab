@@ -163,8 +163,8 @@ begin
     addressCompare: genericCompare
         generic Map(VIDEO_WIDTH_IN_BITS)
         port Map(  
-            x => WIDTH,
-            y => wrAddr,
+            x => wrAddr,
+            y => WIDTH,
             e => open,
             l => open,
             g => sw(FULL_SW_BIT_INDEX)

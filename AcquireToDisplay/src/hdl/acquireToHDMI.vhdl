@@ -78,7 +78,7 @@ begin
     triggerCh1 <= sw(CHANNEL_1_TRIG_SW_BIT_INDEX);
     triggerCh2 <= sw(CHANNEL_2_TRIG_SW_BIT_INDEX);
     
-    triggerPix <= T_EDGE + std_logic_vector(shift_right(unsigned(HEIGHT), 1));
+    triggerPix <=std_logic_vector(to_unsigned(640, VIDEO_WIDTH_IN_BITS)); -- default trigger pixel location, can be modified to be dynamic if needed);
  	datapath_inst: acquireToHDMI_datapath 
         port Map(
             clk => clk,
