@@ -32,11 +32,14 @@ architecture Behavioral of scopeFace is
     -- correct RGB for this pixel location. Finish and add more.
     
     signal borderTop, borderBottom, borderLeft, borderRight, TickHorz, TickVert, LineHorz, LineVert, triggerTimeMarker, triggerVoltMarker : STD_LOGIC;
-    
+    signal ch1W, ch2W: STD_LOGIC;
 
 begin
 
-
+    ch1W <= '1' when (ch1 = '1' and ch1Enb = '1' and (pixelHorz >= L_EDGE + BORDER_LINE_WIDTH) and (pixelHorz <= R_EDGE - BORDER_LINE_WIDTH) and (pixelVert >= T_EDGE + BORDER_LINE_WIDTH) and (pixelVert <= B_EDGE - BORDER_LINE_WIDTH)) else
+                '0';
+    ch2W <= '1' when (ch2 = '1' and ch2Enb = '1' and (pixelHorz >= L_EDGE + BORDER_LINE_WIDTH) and (pixelHorz <= R_EDGE - BORDER_LINE_WIDTH) and (pixelVert >= T_EDGE + BORDER_LINE_WIDTH) and (pixelVert <= B_EDGE - BORDER_LINE_WIDTH)) else
+                '0';           
     ---------------------------------------------------------------------
     -- Use the Feature Booleans to set the RGB at this pixel location.
     -- The waveforms should sit "on top" of the grid.
@@ -53,6 +56,14 @@ begin
                     red <= BORDER_R;
                     green <= BORDER_G;
                     blue <= BORDER_B;
+                elsif ch1W = '1' then -- changed ch1Wave to ch1
+                    red <= CH1_R;
+                    green <= CH1_G;
+                    blue <= CH1_B;
+                elsif ch2W = '1' then -- changed ch1Wave to ch1
+                    red <= CH2_R;
+                    green <= CH2_G;
+                    blue <= CH2_B;
                 elsif (TickHorz = '1') or (TickVert = '1') or (LineVert = '1') or (LineHorz = '1') then
                     red <= GRID_R;
                     green <= GRID_G;
@@ -61,14 +72,6 @@ begin
                     red <= TRIGGER_R;
                     green <= TRIGGER_G;
                     blue <= TRIGGER_B;
-                elsif ch1 = '1' then -- changed ch1Wave to ch1
-                    red <= CH1_R;
-                    green <= CH1_G;
-                    blue <= CH1_B;
-                elsif ch2 = '1' then -- changed ch1Wave to ch1
-                    red <= CH2_R;
-                    green <= CH2_G;
-                    blue <= CH2_B;
                 else
                     red <= X"00";
                     green <= X"00";

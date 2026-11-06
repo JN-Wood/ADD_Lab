@@ -12,7 +12,6 @@ set_property IOSTANDARD LVCMOS33 [get_ports btn[1]]
 set_property PACKAGE_PIN N16 [get_ports btn[0]]
 set_property IOSTANDARD LVCMOS33 [get_ports btn[0]]
 
-
 set_property PACKAGE_PIN M14 [get_ports triggerCh1]
 set_property IOSTANDARD LVCMOS33 [get_ports triggerCh1]
 
